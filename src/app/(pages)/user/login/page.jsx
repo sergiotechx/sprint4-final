@@ -1,39 +1,49 @@
 "use client";
 
+import "./login.scss";
+
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "./login.scss";
-import { useForm } from "@/hooks/useForm";
-import { checkingAuthetication, startGoogleSignIn, startLoginWithEmailPassword } from "@/store/auth/thunks";
 import { useRouter } from "next/navigation";
-
+import {
+  startLoginWithEmailPassword,
+  startGoogleSignIn,
+} from "@/store/auth/thunks";
+import { useForm } from "@/hooks/useForm";
+import { chekingCredentials } from "@/store/auth/authSlice";
 
 const Page = () => {
-
-    const { status, errorMessage } = useSelector( state =>state.auth )
-
-  const router = useRouter();  
+  const { status } = useSelector((state) => state.auth);
+  const router = useRouter();
   const dispatch = useDispatch();
+
   const { email, password, onInputChange } = useForm({
     email: "",
     password: "",
   });
 
-  const isAuthenticating = useMemo( () => status === 'checking', [status]);
+  const isAuthenticating = useMemo(() => status === "checking", [status]);
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
- 
-    dispatch(startLoginWithEmailPassword({ email, password }));
+
+    dispatch(chekingCredentials());
+    const result = await dispatch(
+      startLoginWithEmailPassword({ email, password })
+    );
+    if (result && result.ok) {
+      router.push("/home");
+    }
   };
 
   const onGoogleSignIn = () => {
-    console.log("GoogleSign");
+    dispatch(chekingCredentials());
     dispatch(startGoogleSignIn());
   };
+
   const handleClik = () => {
     router.push(`register`);
-};
+  };
 
   return (
     <div>
@@ -62,32 +72,25 @@ const Page = () => {
           />
         </div>
         <div className="loginButon">
-        <button 
-            disabled={ isAuthenticating }
-            type="submit"
-            className="login" >
-          Login
-        </button>
-        <button
-          disabled={ isAuthenticating }
-          className="buttons__Goo"
-          type="button"
-          onClick={onGoogleSignIn}
-        >
-          Google
-        </button>
+          <button disabled={isAuthenticating} type="submit" className="login">
+            Login
+          </button>
+          <button
+            disabled={isAuthenticating}
+            className="buttons__Goo"
+            type="button"
+            onClick={onGoogleSignIn}
+          >
+            Google
+          </button>
         </div>
       </form>
-      
-      <div className="d-grid gap-2 d-md-flex justify-content-md-end buttons">
-      <h3>Or created account  <span className="link" onClick={handleClik}>here</span></h3>
-       
-        {/* <button 
-            className="buttons__Fac" 
-            type="button">
-          Facebook
-        </button> */}
-      </div>
+      <h3>
+        Or created account{" "}
+        <span className="link" onClick={handleClik}>
+          here
+        </span>
+      </h3>
     </div>
   );
 };
