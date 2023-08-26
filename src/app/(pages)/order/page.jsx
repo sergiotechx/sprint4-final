@@ -47,7 +47,7 @@ const Page = () => {
           <span>$74.49</span>
         </section>
       </div>
-      <Footer />
+     
     </div>
   );
 };
