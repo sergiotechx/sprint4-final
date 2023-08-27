@@ -1,0 +1,61 @@
+.input-container {
+  padding: 10px;
+}
+
+.input-group {
+  padding: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  border-radius: 10px;
+  background: #f2f2f2;
+  margin: 10px 0 20px 0;
+
+  input {
+    width: 85%;
+    border-style: none;
+    background: #f2f2f2;
+    outline: none;
+  }
+  label {
+    cursor: pointer;
+  }
+}
+
+.orderSecundary__searxh {
+  display: flex;
+  gap: 10px;
+
+  .imgsearch {
+    align-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 15%;
+    background-size: contain;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    .span1 {
+      color: #414141;
+      font-family: Roboto;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: -0.3px;
+    }
+    .span2 {
+      color: #a7a7a7;
+      font-family: Roboto;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: -0.3px;
+    }
+  }
+}
