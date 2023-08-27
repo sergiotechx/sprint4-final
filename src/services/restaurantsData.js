@@ -1,5 +1,6 @@
 import { FirebaseApp, FirebaseDB } from "@/firebase/config";
 import { collection, doc, getDocs, getFirestore } from "firebase/firestore";
+
 export const getDBRestautants = async () => {
     try {
 
