@@ -9,7 +9,7 @@ export const getDBRestautants = async () => {
         querySnapshot.forEach((doc) => {
             tempArr.push({ id: doc.id, ...doc.data() })
         });
-        console.log()
+        return tempArr
     }
     catch (error) {
         throw error
