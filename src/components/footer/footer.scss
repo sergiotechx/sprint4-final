@@ -1,5 +1,24 @@
 .footerPrimary {
   display: flex;
   justify-content: space-between;
-  font-size: 40px;
+  font-size: 30px;
+  padding: 20px 20px 10px 20px;
+  margin-top: auto;
+}
+
+.puntito {
+  position: relative;
+}
+
+.puntito::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 12.5px;
+  border: 3px solid #ffc107;
+  border-radius: 50%;
+}
+
+i {
+  cursor: pointer;
 }

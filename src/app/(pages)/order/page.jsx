@@ -1,54 +1,54 @@
 "use client";
 import React from "react";
 import "./order.scss";
-import Footer from "@/components/footer/footer";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import { usePathname, useRouter } from "next/navigation";
 
 const Page = () => {
+  const router = useRouter();
   const handleClick = () => {
-    console.log("Hola mundo");
+    router.push("/detail");
   };
   return (
-    <div className="constainerFirts">
-      <div className="containerPrimary">
-        <section className="containerPrimary__section1">
-          <img
-            src="/images/chevron-back-outline.svg"
-            alt="back"
-            onClick={handleClick}
-          />
-          <span>23.08.2023</span>
-        </section>
-        <section className="containerPrimary__section2">
-          <div>
-            <span>
-              <i>1x</i> Meat Pizza
-            </span>
-            <span className="value">$35.00</span>
+    <>
+      <h4>All orders</h4>
+      <div className="orderPrimary">
+        <div className="orderSecundary">
+          <div className="divSection">
+            <img
+              className="imgRestaurant"
+              src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/restaurant-logo-design-template-b281aeadaa832c28badd72c1f6c5caad_screen.jpg?ts=1595421543"
+              alt=""
+            />
+            <div>
+              <span className="span1">Parders restautant</span>
+              <span className="span2">$ 132.00</span>
+            </div>
           </div>
-          <div>
-            <span>
-              <i>1x</i> Combinet
-            </span>
-            <span className="value">$45.00</span>
+          <div onClick={handleClick} className="status">
+            Delivered<i className="bi bi-chevron-compact-right text-dark"></i>
           </div>
-        </section>
-        <section className="containerPrimary__section3">
-          <div>
-            <span>Production cost</span>
-            <span className="value">$66.49</span>
-          </div>
-          <div>
-            <span>Cost of delivery</span>
-            <span className="value">$8.00</span>
-          </div>
-        </section>
-        <section className="containerPrimary__section4">
-          <span>Total</span>
-          <span>$74.49</span>
-        </section>
+        </div>
       </div>
-     
-    </div>
+      <div className="orderPrimary">
+        <div className="orderSecundary">
+          <div className="divSection">
+            <img
+              className="imgRestaurant"
+              src="https://media-cdn.tripadvisor.com/media/photo-s/1c/40/16/27/estamos-ubicados-en-laureles.jpg"
+              alt=""
+            />
+            <div>
+              <span className="span1">Coffee place</span>
+              <span className="span2">$ 55.20</span>
+            </div>
+          </div>
+          <div onClick={handleClick} className="status2">
+            Cancelled<i className="bi bi-chevron-compact-right text-dark"></i>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 export default Page;
