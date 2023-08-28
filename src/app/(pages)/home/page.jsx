@@ -1,10 +1,10 @@
 'use client'
 import './page.scss'
-import { getDBRestaurants } from '@/services/restaurantsData'
+import { getDBRestaurants } from '../../../services/restaurantsData'
 import React, { useEffect, useState } from 'react'
 import { Carousel } from '@mantine/carousel';
-import { getDBPlateTypes } from '@/services/plateTypeData';
-import RestaurantCard from '@/components/restaurantCard/restaurantCard';
+import { getDBPlateTypes } from '../../../services/plateTypeData';
+import RestaurantCard from '../../../components/restaurantCard/restaurantCard';
 import { useRouter } from "next/navigation";
 
 
