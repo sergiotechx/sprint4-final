@@ -1,0 +1,40 @@
+.image{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center; 
+    margin-top: 78px; 
+    img{
+        width: 64px;
+        height: 64px;
+    }
+}
+.options{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 16px;
+    margin-top: 32px;
+}
+.option {
+    display: flex;
+    align-items: center;
+    width: 358px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--complementary-color-light-gray, #F2F2F2);
+}
+
+.option i.bi.l {
+    margin-right: 10px; /* Espacio entre el ícono y el texto */
+    margin-left: 10px;
+}
+
+.option p {
+    margin: 0; /* Eliminar márgenes alrededor del párrafo */
+}
+
+.option i.bi.r{
+    margin-left: auto; /* Empujar el ícono a la derecha */
+    margin-right: 10px;
+}
