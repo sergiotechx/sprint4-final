@@ -19,7 +19,7 @@ const Footer = () => {
       router.push("/order");
     }
     if (page == "perfil") {
-      console.log("voy para", page);
+      router.push("/user/perfil");
     }
   };
 
