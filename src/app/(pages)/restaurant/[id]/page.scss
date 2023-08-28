@@ -1,0 +1,56 @@
+.restaurantC {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 1rem;
+
+    &_header {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+        position: relative;
+
+        #logo {
+            width: 6.75rem;
+            height: 2.56rem;
+        }
+
+        #back {
+            width: 1.5625rem;
+            height: 1.5625rem;
+            position: absolute;
+            left: 0;
+            cursor: pointer;
+        }
+    }
+
+    &_subheader {
+        display: flex;
+        flex-direction: row;
+        margin-top: 0.5rem;
+        width: 100;
+
+
+        &_image {
+            display: flex;
+            flex-direction: row;
+            width: 40%;
+
+            img {
+                width: 8.56rem;
+                height: 6.625rem;
+                border-radius: 5px;
+                overflow: hidden;
+                /* Oculta cualquier parte de la imagen que exceda el contenedor */
+                border-bottom-right-radius: 100px;
+            }
+        }
+
+        &_info {
+            display: flex;
+            flex-direction: column;
+            width: 60%;
+        }
+    }
+}

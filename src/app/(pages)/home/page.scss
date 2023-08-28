@@ -1,0 +1,72 @@
+.HomeC {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 1rem;
+
+    &_RestaurantsLogo {
+        .mantine-Carousel-slide {
+            
+            img {
+                width: 16.1875rem;
+                height: 5rem;
+                object-fit: fill;
+                border-radius: 5px;
+                cursor:pointer;
+            }
+            
+        }
+    }
+
+    &_FoodType {
+        p {
+            margin-top: 0.5rem;
+        }
+
+        #ButtonAll {
+            margin-right: 0.5rem;
+        }
+    }
+
+    &_Restaurants {
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.5rem;
+        margin-top: 1rem;
+
+        .RestaurantCardC {
+            display: flex;
+            flex-direction: row;
+            background-color: white;
+            width: 100%;
+            border-radius: 5px;
+            //box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+            &_image{
+                display: flex;
+                flex-direction: row;
+                width: 40%;
+                img{
+                   width:8.56rem;
+                    height:6.625rem ;
+                    border-radius: 5px;
+                    overflow: hidden; /* Oculta cualquier parte de la imagen que exceda el contenedor */
+                    border-bottom-right-radius: 100px;
+                }
+            }
+            &_info{
+                display: flex;
+                flex-direction: column;
+                width: 60%;
+                h5{
+                    font-weight: 400px;
+                }
+                p{
+                    font-weight: 300px;
+                }
+            }
+
+        }
+    }
+
+}
