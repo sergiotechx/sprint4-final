@@ -3,12 +3,13 @@
 import React from 'react'
 import './perfil-edit.scss'
 import { useRouter } from 'next/navigation'
+import { useSelector } from 'react-redux'
 
 
 
 const page = () => {
     const router = useRouter()
-
+    const user = useSelector(state=> state.auth)
     
     const handleClick = () =>{
         router.push('perfil')
@@ -22,26 +23,20 @@ const page = () => {
             <div className='imageEdit'>
                 <p>Profile</p>
                 <figure className='figurEdit'>
-                <img src="/images/Profile.svg" alt="" />
+                <img src={user.photoURL} alt="" />
                 </figure>
                 <i className="bi bi-camera C"></i>
             </div>
         </div>
         <section className='inputs'>
+                <button className='buttonEdit'>{user.displayName}</button>    
+                <button className='buttonEdit'>{user.email}</button>
             <div className='inputEdit'>
-                <input type="text" />
+                <input type="number" value={user.celphone} />
                 <i className="bi bi-pencil"></i>
             </div>
             <div className='inputEdit'>
-                <input type="text" />
-                <i className="bi bi-pencil"></i>
-            </div>
-            <div className='inputEdit'>
-                <input type="number" />
-                <i className="bi bi-pencil"></i>
-            </div>
-            <div className='inputEdit'>
-                <input type="number" />
+                <input type="text" value={user.date}/>
                 <i className="bi bi-pencil"></i>
             </div>
         </section>

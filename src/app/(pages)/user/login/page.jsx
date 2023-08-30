@@ -14,6 +14,7 @@ import { chekingCredentials } from "@/store/auth/authSlice";
 
 const Page = () => {
   const { status } = useSelector((state) => state.auth);
+  console.log("User data:", status);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -21,8 +22,10 @@ const Page = () => {
     email: "",
     password: "",
   });
+  
 
   const isAuthenticating = useMemo(() => status === "checking", [status]);
+  const isLogin = useMemo(() => status === "authenticated", [status]);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -38,9 +41,13 @@ const Page = () => {
 
   const onGoogleSignIn = () => {
     dispatch(chekingCredentials());
-    dispatch(startGoogleSignIn());
+    dispatch(startGoogleSignIn()
+   );
   };
 
+  if (isLogin) {
+    router.push("/");
+  }
   const handleClik = () => {
     router.push(`register`);
   };

@@ -29,7 +29,7 @@ export const signInWithgoogle = async() =>{
     }
 }
 
-export const registerUserWithEmailPassword = async({email, password, displayName}) => {
+export const registerUserWithEmailPassword = async({email, password, displayName, date, celphone}) => {
     try {
         
        const resp = await createUserWithEmailAndPassword(FirebaseAuth, email, password);
@@ -39,7 +39,7 @@ export const registerUserWithEmailPassword = async({email, password, displayName
 
        return {
         ok: true,
-        uid, photoURL, email, displayName
+        uid, photoURL, email, displayName,  date, celphone
        }
 
 
@@ -55,11 +55,11 @@ export const registerUserWithEmailPassword = async({email, password, displayName
 export const loginWithEmailPassword = async ({email, password} ) =>{
     try {
         const resp = await signInWithEmailAndPassword( FirebaseAuth, email, password)
-        const {uid, photoURL, displayName} = resp.user;
+        const {uid, photoURL, displayName, date, celphone } = resp.user;
 
         return{
             ok: true,
-            uid, photoURL, displayName
+            uid, photoURL, displayName,date, celphone
         }
 
     } catch (error) {
