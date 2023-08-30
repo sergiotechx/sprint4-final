@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 
 
 
-const page = () => {
+const Page = () => {
     const router = useRouter()
     const user = useSelector(state=> state.auth)
     
@@ -44,4 +44,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
