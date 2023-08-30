@@ -19,6 +19,8 @@ const formData = {
   email: "",
   password: "",
   displayName: "",
+  date:"",
+  celphone:""
 };
 
 const formValidations = {
@@ -44,6 +46,8 @@ const Pages = () => {
     displayName,
     email,
     password,
+    date,
+    celphone,
     onInputChange,
     formState,
     isFormValid,
@@ -110,6 +114,28 @@ const Pages = () => {
             onChange={onInputChange}
             error={!!passwordValid && formSubmitted}
             helperText={passwordValid}
+          />
+        </Grid>
+        <Grid item xs={12} sx={{ mt: 2 }}>
+          <TextField
+            label="Fecha de nacimiento"
+            type="text"
+            placeholder="Escriba su fecha de nacimiento seprada por -"
+            fullWidth
+            name="date"
+            value={date}
+            onChange={onInputChange}
+          />
+        </Grid>
+        <Grid item xs={12} sx={{ mt: 2 }}>
+          <TextField
+            label="numero de telefono"
+            type="number"
+            placeholder="digite su numero de telefono"
+            fullWidth
+            name="celphone"
+            value={celphone}
+            onChange={onInputChange}
           />
         </Grid>
 

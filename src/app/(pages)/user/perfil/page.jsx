@@ -4,10 +4,12 @@ import React from 'react'
 import './perfil.scss'
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 const Page = () => {
     const router = useRouter()
 
+    const user = useSelector((state) => state.auth);
     
     const handleClick = () =>{
         router.push('perfil-edit')
@@ -16,8 +18,8 @@ const Page = () => {
     <div>
         <div>
             <figure className='image'>
-                <img src="/images/Profile.svg" alt="" />
-                <h5>Brayan Areiza</h5>
+                <img src={user.photoURL} alt="" />
+                <h5>{user.displayName}</h5>
             </figure>
         </div>
         <div className='options'>

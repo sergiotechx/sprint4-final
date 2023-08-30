@@ -3,10 +3,13 @@
     flex-direction: column;
     text-align: center;
     align-items: center; 
-    margin-top: 78px; 
+    margin-top: 45px;
+    gap: 8px; 
     img{
         width: 64px;
         height: 64px;
+        border-radius: 30px;
+        border: none;
     }
 }
 .options{
