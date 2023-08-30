@@ -1,0 +1,109 @@
+.preOrderC{
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height:91vh;
+   
+    &_header{
+        width: 100%;
+        display:flex;
+        flex-direction: row;
+        position:relative;
+        justify-content: center;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        #plate{
+            max-width:250px;
+            max-height: 150px;
+            justify-self: center;
+            border-radius: 5px;
+        }
+        #back{
+            width:25px;
+            max-height: 25px;
+            position:absolute;
+            left:0;
+            cursor:pointer;
+        }
+
+    }
+    &_subheader{
+        margin-top:1rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        h5{
+            font-weight: 400;
+            font-size: 20px;
+        }
+        i{
+            font-size: 14px;
+        }
+    }
+    #description{
+        font-size: 14px;
+        font-weight: 300px;
+    }
+    #additional{
+        font-size: 14px;
+        font-weight: 300px;
+        color:#A7A7A7;
+    }
+    &_toppings{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        
+        &_topping{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            line-height: 1; 
+            justify-content: space-between;
+        }
+    
+    }
+    &_footer{
+        display:flex;
+        flex-direction: row;
+        margin-top:auto;
+        justify-content: space-between;
+        height:2rem;
+        button{
+            border: none;
+            height:2rem;
+        }
+        &_group1{
+            display:flex;
+            flex-direction: row;
+           
+            button{
+                border: none;
+            }
+            #btn_left{
+                border-top-left-radius: 5px ;
+                border-bottom-left-radius: 5px ;
+            }
+            #btn_right{
+                border-top-right-radius: 5px ;
+                border-bottom-right-radius: 5px ;
+            }
+            input{
+                border: none;
+                background-color: #EFEFEF;
+            }
+        }
+        &_group2{
+            display:flex;
+            flex-direction: row;
+            align-items: baseline;
+            background-color: #FFE031;
+            border-radius: 5px;
+            button{
+                background-color: #FFE031;
+            }
+        }
+    }
+}

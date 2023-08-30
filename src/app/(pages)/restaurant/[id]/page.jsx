@@ -1,17 +1,33 @@
 'use client'
-import { getDBRestaurant } from '@/services/restaurantsData'
 import './page.scss'
+import { getDBRestaurant, getDBRestaurantPlates } from '@/services/restaurantsData'
+import { getDBPlateTypes } from '@/services/plateData';
 import React, { useEffect, useState } from 'react'
 import { useRouter } from "next/navigation";
+import { Carousel } from '@mantine/carousel';
+import { Rating } from '@mantine/core';
+import PlateInfo from '@/components/plateInfo/plateInfo';
+
 
 const Page = ({ params }) => {
+  
   const [restaurantInfo, setRestaurantInfo] = useState({})
+  const [plateTypeInfo, setplateTypeInfo] = useState([])
+  const [platesInfo, setPlatesInfo] = useState([])
   const router = useRouter();
+  
   const loadData = async (id) => {
     const data = await getDBRestaurant(id)
-    console.log('la datisa', data)
     setRestaurantInfo(data)
+    const data2 = await getDBPlateTypes()
+    if (data2.length > 0) {
+      data2.unshift({ id: '0', Description: 'Todo' });
+      setplateTypeInfo(data2)
+    }
+    const data3 = await getDBRestaurantPlates(id)
+    setPlatesInfo(data3)
   }
+  
   const goHome = () => {
     router.push('/')
   }
@@ -32,13 +48,43 @@ const Page = ({ params }) => {
       </div>
       <div className='restaurantC_subheader'>
         <div className='restaurantC_subheader_image'>
-          <img src ={restaurantInfo?.FoodImg}/>
+          <img src={restaurantInfo?.FoodImg} />
         </div>
         <div className='restaurantC_subheader_info'>
           <h5> {restaurantInfo?.Name}</h5>
           <p> {restaurantInfo?.Description}</p>
+          <div className='restaurantC_subheader_info_footer'>
+            <Rating value={restaurantInfo?.Rating} fractions={2} readOnly />
+            <p className="bg-body-secondary">{restaurantInfo?.WaitingTime} min</p>
+          </div>
         </div>
       </div>
+      <div className='restaurantC_buttons'>
+        {
+          plateTypeInfo.length > 0 &&
+            <Carousel slideSize="10%" align="start" slideGap="xs" controlsOffset="xs" loop dragFree withControls={false}>
+
+              {plateTypeInfo.map((plate, index) =>
+                <Carousel.Slide key={plate.id}>
+                  {index == 0 ?
+                    <button className="btn btn btn-warning" type="button" value={plate.id}>{plate.Description}</button>
+                    :
+                    <button className="btn bg-body-secondary" type="button" value={plate.id}>{plate.Description}</button>
+                  }
+                </Carousel.Slide>
+              )}
+            </Carousel>
+            
+        }
+      </div>
+      <div className='restaurantC_plates'>
+      {platesInfo.length>0 &&
+        <>
+        {platesInfo.map((plateInfo,index)=><PlateInfo key={plateInfo.id} plateInfo={plateInfo}/>)}    
+        </>
+      }
+      </div>
+
 
     </div>
   )
