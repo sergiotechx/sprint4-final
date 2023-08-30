@@ -2,10 +2,11 @@
 import "./page.scss";
 import { getDBRestaurants } from "../../../services/restaurantsData";
 import React, { useEffect, useState } from "react";
-import { Carousel } from "@mantine/carousel";
+
 import { getDBPlateTypes } from "../../../services/plateTypeData";
 import RestaurantCard from "../../../components/restaurantCard/restaurantCard";
 import { useRouter } from "next/navigation";
+import { Carousel } from "@mantine/carousel";
 
 const Page = () => {
   const [restaurantsInfo, setRestaurantsInfo] = useState([]);
