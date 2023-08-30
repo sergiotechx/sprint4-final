@@ -23,6 +23,7 @@ const Page = () => {
   });
 
   const isAuthenticating = useMemo(() => status === "checking", [status]);
+  const isLoging = useMemo(() => status === "authenticated", [status])
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -35,6 +36,10 @@ const Page = () => {
       router.push("/");
     }
   };
+
+  if(isLoging){
+    router.push("/")
+  }
 
   const onGoogleSignIn = () => {
     dispatch(chekingCredentials());
