@@ -1,10 +1,12 @@
 import {configureStore} from '@reduxjs/toolkit'
-import { authSlice } from './auth/authSlice'
+import { authSlice } from './auth/authSlice';
+import { restaurantTypesSlice } from './restaurantTypes/restaurantTypesSlice';
 
 
 
 const rootReducer = {
-    auth: authSlice.reducer,
+  auth: authSlice.reducer,
+  restaurantTypes: restaurantTypesSlice.reducer,
     // ...otros reducers si los tienes
   };
   
@@ -12,6 +14,7 @@ const rootReducer = {
     reducer: rootReducer,
     // ...otras configuraciones del store si es necesario
   });
+
   
   
   
