@@ -16,7 +16,6 @@ const Page = () => {
   const { status } = useSelector((state) => state.auth);
   const router = useRouter();
   const dispatch = useDispatch();
-
   const { email, password, onInputChange } = useForm({
     email: "",
     password: "",
