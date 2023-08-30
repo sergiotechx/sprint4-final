@@ -1,5 +1,5 @@
 'use client'
-'use client'
+
 import React, { useState, useEffect } from 'react';
 import './style.scss';
 import Swal from 'sweetalert2';
