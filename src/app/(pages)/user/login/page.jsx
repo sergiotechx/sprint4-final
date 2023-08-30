@@ -17,7 +17,6 @@ const Page = () => {
   console.log("User data:", status);
   const router = useRouter();
   const dispatch = useDispatch();
-
   const { email, password, onInputChange } = useForm({
     email: "",
     password: "",
