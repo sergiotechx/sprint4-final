@@ -18,6 +18,9 @@ const Footer = () => {
     if (page == "order") {
       router.push("/order");
     }
+    if (page == "newOrder") {
+      router.push("/newOrder");
+    }
     if (page == "perfil") {
       router.push("/user/perfil");
     }
@@ -44,6 +47,12 @@ const Footer = () => {
             : ""
         }`}
         onClick={() => goRute("order")}
+      ></i>
+      <i
+        className={`bi bi-cart-plus  ${
+          currentPath === "/newOrder" ? "text-warning puntito" : ""
+        }`}
+        onClick={() => goRute("newOrder")}
       ></i>
       <i
         className={`bi bi-person  ${
