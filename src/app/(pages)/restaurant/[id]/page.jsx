@@ -10,12 +10,13 @@ import PlateInfo from '@/components/plateInfo/plateInfo';
 
 
 const Page = ({ params }) => {
-  
+
   const [restaurantInfo, setRestaurantInfo] = useState({})
   const [plateTypeInfo, setplateTypeInfo] = useState([])
   const [platesInfo, setPlatesInfo] = useState([])
+  const [platesInfoFiltered, setPlatesInfoFiltered] = useState([])
   const router = useRouter();
-  
+
   const loadData = async (id) => {
     const data = await getDBRestaurant(id)
     setRestaurantInfo(data)
@@ -26,10 +27,23 @@ const Page = ({ params }) => {
     }
     const data3 = await getDBRestaurantPlates(id)
     setPlatesInfo(data3)
+    setPlatesInfoFiltered(JSON.parse(JSON.stringify(data3)))
   }
-  
+
   const goHome = () => {
     router.push('/')
+  }
+
+  const filter = async (id) => {
+    let temp = JSON.parse(JSON.stringify(platesInfo))
+    let filtered = []
+    if (id != 0) {
+      filtered = temp.filter((PlateInfo) => (PlateInfo.PlateTypeId._key.path.segments[6] == id))
+    }
+    else {
+      filtered = temp
+    }
+    setPlatesInfoFiltered(filtered)
   }
 
   useEffect(() => {
@@ -62,27 +76,23 @@ const Page = ({ params }) => {
       <div className='restaurantC_buttons'>
         {
           plateTypeInfo.length > 0 &&
-            <Carousel slideSize="10%" align="start" slideGap="xs" controlsOffset="xs" loop dragFree withControls={false}>
+          <Carousel slideSize="10%" align="start" slideGap="xs" controlsOffset="xs" loop dragFree withControls={false}>
 
-              {plateTypeInfo.map((plate, index) =>
-                <Carousel.Slide key={plate.id}>
-                  {index == 0 ?
-                    <button className="btn btn btn-warning" type="button" value={plate.id}>{plate.Description}</button>
-                    :
-                    <button className="btn bg-body-secondary" type="button" value={plate.id}>{plate.Description}</button>
-                  }
-                </Carousel.Slide>
-              )}
-            </Carousel>
-            
+            {plateTypeInfo.map((plate, index) =>
+              <Carousel.Slide key={plate.id}>
+                {index == 0 ?
+                  <button className="btn btn btn-warning" type="button" value={plate.id} onClick={() => { filter(plate.id) }}>{plate.Description}</button>
+                  :
+                  <button className="btn bg-body-secondary" type="button" value={plate.id} onClick={() => { filter(plate.id) }}>{plate.Description}</button>
+                }
+              </Carousel.Slide>
+            )}
+          </Carousel>
+
         }
       </div>
       <div className='restaurantC_plates'>
-      {platesInfo.length>0 &&
-        <>
-        {platesInfo.map((plateInfo,index)=><PlateInfo key={plateInfo.id} plateInfo={plateInfo}/>)}    
-        </>
-      }
+           {platesInfoFiltered?.map((plateInfo, index) => <PlateInfo key={plateInfo.id} plateInfo={plateInfo} />)}
       </div>
 
 

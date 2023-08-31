@@ -41,9 +41,8 @@
                 width: 8.56rem;
                 height: 6.625rem;
                 border-radius: 5px;
-                overflow: hidden;
-                /* Oculta cualquier parte de la imagen que exceda el contenedor */
-                border-bottom-right-radius: 100px;
+                border-radius: 15px;
+                clip-path: polygon(0 0, 100% 0%, 75% 100%, 0% 100%);
             }
         }
 
