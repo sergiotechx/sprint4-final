@@ -9,7 +9,7 @@ export const restaurantTypesSlice = createSlice({
     name: 'restaurantTypes',
     initialState: initialValue,
     reducers: {
-        fillRestaurantTypes: (state, action) => {
+        setRestaurantTypes: (state, action) => {
             state.restaurantTypes = action.payload;
         },
         setErrors: (state, action) => {
@@ -19,4 +19,4 @@ export const restaurantTypesSlice = createSlice({
     }
 });
 
-export const { fillRestaurantTypes, setErrors } = restaurantTypesSlice.actions;
+export const { setRestaurantTypes, setErrors } = restaurantTypesSlice.actions;
