@@ -4,6 +4,7 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState: {
       status: 'not-authenticated', // checking
+      userSave: false,
       uid: null,
       email: null,
       displayName: null,
@@ -23,6 +24,19 @@ export const authSlice = createSlice({
             state.photoURL = payload.photoURL;
             state.errorMessage = null;
         },
+        addNewUser:(state,{payload}) =>{
+            state.status = 'authenticated', // checking
+            state.uid = payload.uid;
+            state.userSave= true;
+            state.email = payload.email;
+            state.displayName = payload.displayName;
+            state.date = payload.date;
+            state.celphone = payload.celphone;
+            state.photoURL = payload.photoURL;
+        },
+        updateUser:(state,{payload}) =>{
+
+        },
         logout: (state,{payload}) =>{
             state.status = 'not-authenticated', // checking
             state.uid = null;
@@ -39,4 +53,4 @@ export const authSlice = createSlice({
     }
 });
 
-export const { loging, logout, chekingCredentials } = authSlice.actions;
+export const { loging, logout, chekingCredentials, addNewUser, updateUser } = authSlice.actions;
