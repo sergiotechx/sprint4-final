@@ -1,13 +1,12 @@
 import {configureStore} from '@reduxjs/toolkit'
 import { authSlice } from './auth/authSlice';
-import { restaurantTypesSlice } from './restaurantTypes/restaurantTypesSlice';
+
 
 
 
 const rootReducer = {
   auth: authSlice.reducer,
-  restaurantTypes: restaurantTypesSlice.reducer,
-    // ...otros reducers si los tienes
+      // ...otros reducers si los tienes
   };
   
   export const store = configureStore({
