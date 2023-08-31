@@ -78,7 +78,9 @@
     table {
       width: 100%;
       border-radius: 1rem;
-      background-color: #0056b3;
+      background-color: #5788bd;
+      color: white;  /* Agregado: Color de texto para los encabezados */
+
       
       thead {
         th {
@@ -92,6 +94,7 @@
       tbody {
         tr {
           td {
+            color: white;  /* Agregado: Color de texto para los encabezados */
             border-left: .1rem solid #ccc;
             padding: 5px;
           }
