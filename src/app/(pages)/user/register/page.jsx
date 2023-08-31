@@ -13,7 +13,9 @@ import {
 import { useRouter } from "next/navigation";
 import { useForm } from "@/hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
-import { startCreatingUserWithEmailPassword } from "@/store/auth/thunks";
+import { startCreatingUserWithEmailPassword, startNewUSer, startNewUser } from "@/store/auth/thunks";
+import { store } from "@/store/store";
+
 
 const formData = {
   email: "",
@@ -71,6 +73,13 @@ const Pages = () => {
   const handleClik = () =>{
     router .push('login')
   }
+
+  const onClickNewUser = async () => {
+    await dispatch(startCreatingUserWithEmailPassword(formState));
+    dispatch(startNewUser())
+    const currentState = store.getState().auth;
+    console.log('getState= ', currentState);
+  }; 
 
   return (
     <form onSubmit={onSubmit}>
@@ -145,6 +154,7 @@ const Pages = () => {
           </Grid>
           <Grid item xs={12}>
             <Button
+              onClick={onClickNewUser}
               disabled={isCheckingAuthentication}
               type="submit"
               variant="contained"
