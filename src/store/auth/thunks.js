@@ -154,6 +154,6 @@ export const starLoadingUser = () =>{
     const State = getState().auth;
 
     console.log(State);
-
+    //
   }
 }
