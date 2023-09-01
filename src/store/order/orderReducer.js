@@ -4,6 +4,9 @@ const initialState = {
   orders: [],
 };
 
+const { item, quantity } = action.payload;
+const existingItem = state.find((cartItem) => cartItem.id === item.id);
+
 const orderSlice = createSlice({
   name: "order",
   initialState,
