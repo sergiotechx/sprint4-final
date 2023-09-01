@@ -7,6 +7,7 @@ import Footer from "@/components/footer/footer";
 import "./layout.scss";
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
+import { OrderContextProvider } from "@/store/store";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -22,7 +23,9 @@ export default function RootLayout({ children }) {
         <title>Foody 🥗</title>
       </head>
       <body className={roboto.className}>
+   
         <ReduxProvider>{children}</ReduxProvider>
+      
         {currentPath !== "/newOrder" ? <Footer /> : ""}
       </body>
     </html>

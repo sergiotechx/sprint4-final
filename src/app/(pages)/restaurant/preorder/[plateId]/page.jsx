@@ -4,6 +4,7 @@ import { getDBOrgToppingsxPlate, getDBPlate } from '@/services/plateData'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from "next/navigation";
 import { Checkbox } from '@mantine/core';
+import { useOrderContext } from '@/store/store';
 
 const Page = ({ params }) => {
 
@@ -21,6 +22,8 @@ const Page = ({ params }) => {
   const [toppingsValue, setToppingsValue] = useState([])
   const [order, setOrder] = useState({})
   const router = useRouter();
+
+  
 
   const loadData = async (plateId) => {
 
@@ -70,7 +73,9 @@ const Page = ({ params }) => {
       })
       temp.TotalPrice = temp.Quantity * (temp.Price + sumtoppings)
       setOrder(temp)
+    
     }
+  
   }
 
   const goHome = () => {
@@ -79,6 +84,7 @@ const Page = ({ params }) => {
   const changeOrdQty = (operation) => {
 
     let temp = JSON.parse(JSON.stringify(order))
+    console.log(temp)
     if (operation === '-') {
       if (order.Quantity > 0) {
         temp.Quantity -= 1
