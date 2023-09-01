@@ -22,54 +22,35 @@ export const getOrdersFromFirestore = () => {
   };
 };
 
-export const addProductToFirestore = (product) => {
+export const addOrder = (order) => {
   return async (dispatch) => {
     try {
-      const querySnapshot = await addDoc(productCollection, product);
-      dispatch(addProduct({ id: querySnapshot.id, ...product }));
+      dispatch(addOrder({ order }));
     } catch (error) {
       console.log("error", error.error);
     }
   };
 };
 
-export const updateProductToFirestore = (product) => {
-  const documentRef = doc(productCollection, product.id);
-  return async (dispatch) => {
+export const updateOrder = (order) => {
+    return async (dispatch) => {
     try {
-      dispatch(updateProduct(product));
-      delete product.id;
-      await setDoc(documentRef, product);
+      dispatch(updateOrder(order));
     } catch (error) {
       console.log("error", error.error);
     }
   };
 };
 
-export const deleteProductToFirestore = (id, index) => {
+export const deleteOrder = (order) => {
   return async (dispatch) => {
     try {
-      await deleteDoc(doc(productCollection, id));
-      dispatch(deleteProduct(index));
+     
+     // dispatch(deleteProduct(index));
     } catch (error) {
       console.log("error", error.error);
     }
   };
 };
 
-export const getProductsByName = (name) => {
-  return async (dispatch) => {
-    try {
-      const queryResult = await getDocs(
-        query(productCollection, where("name", ">=", name))
-      );
-      const tempArr = [];
-      queryResult.forEach((doc) => {
-        tempArr.push({ id: doc.id, ...doc.data() });
-      });
-      dispatch(setProducts(tempArr));
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-};
+
