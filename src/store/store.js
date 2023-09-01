@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authSlice } from "./auth/authSlice";
 import {orderSlice} from './order/orderReducer'
+import thunk from "redux-thunk";
 
 
 const rootReducer = {
@@ -11,5 +12,6 @@ const rootReducer = {
 
 export const store = configureStore({
   reducer: rootReducer,
+  middleware: [thunk]
   // ...otras configuraciones del store si es necesario
 });
