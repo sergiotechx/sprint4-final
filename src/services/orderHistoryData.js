@@ -10,19 +10,25 @@ import {
 
 export const getOrdersForUser = async (userId) => {
   try {
-    console.log(userId);
-    //const userDocRef = doc(FirebaseDB, "Users", userId);
-    //console.log(userDocRef);
+
     const q = query(
       collection(FirebaseDB, "OrderHistory"),
       where("UserId", "==", userId)
     );
     const querySnapshot = await getDocs(q);
+   
     let tempArr = [];
-    querySnapshot.forEach((doc) => {
-      tempArr.push({ id: doc.id, ...doc.data() });
+    let tempArr2 = [];
+    
+    querySnapshot.forEach( (doc) => {
+       tempArr.push({ id: doc.id, ...doc.data() });
     });
-    return tempArr;
+    for(let index = 0; index<tempArr.length;index++){
+       const restaurant = (await getDoc(tempArr[0].RestaurantId)).data()
+       tempArr2.push({orderId:tempArr[index].id, restaurantName:restaurant.Name,restaurantLogo:restaurant.LogoImg })
+    }
+    
+    return tempArr2;
   } catch (error) {
     throw error;
   }

@@ -16,11 +16,11 @@ const Page = () => {
   };
 
   const Orders = async (uid) => {
-    const respuesta = await getOrdersForUser(uid);
+    const respuesta = await getOrdersForUser('BYvjpJKl5Ibi5G3IK9Keuzv1ACF3');
     console.log(respuesta);
     setOrders(respuesta);
-    const respuesta2 = await getDBOrder(respuesta[0].id);
-    console.log(respuesta2);
+    //const respuesta2 = await getDBOrder(respuesta[0].id);
+    //console.log(respuesta2);
   };
 
   useEffect(() => {
