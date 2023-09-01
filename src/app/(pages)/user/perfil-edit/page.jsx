@@ -7,13 +7,20 @@ import { useSelector } from 'react-redux'
 
 
 
-const Page = () => {
+
+const Page = ({params}) => {
+
     const router = useRouter()
     const user = useSelector(state=> state.auth)
+
+    
+
     
     const handleClick = () =>{
         router.push('perfil')
     }
+
+
   return (
     <div>
         <div className='header'>
@@ -32,11 +39,11 @@ const Page = () => {
                 <button className='buttonEdit'>{user.displayName}</button>    
                 <button className='buttonEdit'>{user.email}</button>
             <div className='inputEdit'>
-                <input type="number" value={user.celphone} />
+                <input type="number" value={user?.celphone} />
                 <i className="bi bi-pencil"></i>
             </div>
             <div className='inputEdit'>
-                <input type="text" value={user.date}/>
+                <input type="text" value={user?.date}/>
                 <i className="bi bi-pencil"></i>
             </div>
         </section>
