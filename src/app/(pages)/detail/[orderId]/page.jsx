@@ -3,8 +3,18 @@ import React from "react";
 import "./detail.scss";
 import { useRouter } from "next/navigation";
 
-const Page = () => {
+const Page = ({ params }) => {
   const router = useRouter();
+
+  const loadData = async (id) => {
+    const results = await getDBOrder(id);
+    console.log(results);
+  };
+
+  useEffect(() => {
+    loadData(params.orderId);
+  }, []);
+
   const handleClick = () => {
     router.push("/order");
   };
