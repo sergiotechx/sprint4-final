@@ -25,7 +25,7 @@ export const getOrdersForUser = async (userId) => {
     });
     for(let index = 0; index<tempArr.length;index++){
        const restaurant = (await getDoc(tempArr[0].RestaurantId)).data()
-       tempArr2.push({orderId:tempArr[index].id, restaurantName:restaurant.Name,restaurantLogo:restaurant.LogoImg })
+       tempArr2.push({orderId:tempArr[index].id, TotalPrice:tempArr[index].TotalPrice, restaurantName:restaurant.Name,restaurantLogo:restaurant.LogoImg })
     }
     
     return tempArr2;
