@@ -4,7 +4,8 @@ import { getDBOrgToppingsxPlate, getDBPlate } from '@/services/plateData'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from "next/navigation";
 import { Checkbox } from '@mantine/core';
-import { useOrderContext } from '@/store/store';
+import { useDispatch, useSelector } from 'react-redux';
+//import {addOrder}
 
 const Page = ({ params }) => {
 
@@ -17,6 +18,8 @@ const Page = ({ params }) => {
     Quantity: 1,
     TotalPrice: null
   }
+  const dispatch = useDispatch();
+  const orders = useSelector((store) => store.order);
   const [plateInfo, setPlateInfo] = useState({})
   const [toppingsxPlate, setToppingsxPlate] = useState([])
   const [toppingsValue, setToppingsValue] = useState([])
