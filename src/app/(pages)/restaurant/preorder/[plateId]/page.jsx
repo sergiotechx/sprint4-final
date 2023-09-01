@@ -107,6 +107,7 @@ const Page = ({ params }) => {
   useEffect(() => {
     loadData(params.plateId)
   }, [])
+  
   useEffect(() => {
     updateOrder()
     

@@ -1,5 +1,6 @@
 import { FirebaseDB } from "@/firebase/config";
-import { collection, doc, getDocs, getDoc,query,where } from "firebase/firestore";
+import { collection, doc, getDocs, getDoc, query, where } from "firebase/firestore";
+
 export const getDBPlateTypes = async () => {
     try {
         const plateTypeCollection = collection(FirebaseDB, "PlateType")
