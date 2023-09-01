@@ -1,82 +1,84 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.form{
-    background-color: #fff;
-    height: 50vh;
+.form {
+  background-color: #fff;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  gap: 25px;
+}
+.Log {
+  color: #fff;
+  background-color: rgb(54, 51, 127);
+  height: 40px;
+  width: 100px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.mb-3 {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  padding-left: 15px;
+  input {
+    width: 360px;
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid black;
+  }
+}
+.loginButon {
+  display: flex;
+  gap: 15px;
+}
+.login {
+  color: #fff;
+  border-radius: 10px;
+  background: var(--Main-color, #ffe031);
+  height: 40px;
+  width: 100px;
+
+  cursor: pointer;
+}
+.buttons {
+  margin-top: -20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 15px;
+
+  &__Goo {
     display: flex;
-    flex-direction: column;
-    text-align: center;
+    gap: 5px;
+    justify-content: center;
     align-items: center;
-    gap: 25px;
-
-}
-.Log{
+    color: #fff;
+    border-radius: 10px;
+    background: var(--Main-color, #ffe031);
+    height: 40px;
+    width: 100px;
+    cursor: pointer;
+  }
+  &__Fac {
     color: #fff;
     background-color: rgb(54, 51, 127);
     height: 40px;
     width: 100px;
     border-radius: 8px;
-    cursor: pointer; 
-    
+    cursor: pointer;
+  }
 }
-.mb-3{
-    display: flex;
-    flex-direction: column;
-    align-items: baseline;
-    padding-left: 15px;
-    input{
-        width: 360px;
-        height: 30px;
-        border: none;
-        border-bottom: 1px solid black;
-    }
-    
+.link {
+  color: rgb(225, 145, 16);
+  cursor: pointer;
 }
-.loginButon{
-    display: flex;
-    gap: 15px;
-}
-.login{
-    color: #fff;
-        background-color: rgb(54, 51, 127);
-        height: 40px;
-        width: 100px;
-        border-radius: 8px;
-        cursor: pointer;
-}
-.buttons{
-    margin-top: -20px;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 15px;
-    
-    &__Goo{
-        color: #fff;
-        background-color: rgb(54, 51, 127);
-        height: 40px;
-        width: 100px;
-        border-radius: 8px;
-        cursor: pointer;
-    }
-    &__Fac{
-        color: #fff;
-        background-color: rgb(54, 51, 127);
-        height: 40px;
-        width: 100px;
-        border-radius: 8px;
-        cursor: pointer;
-    }
-}
-.link{
-    color: rgb(225, 145, 16);
-    cursor: pointer;   
-}
-.link:hover{
-    transform: scaleX(1.8);
-    text-decoration: underline;
+.link:hover {
+  transform: scaleX(1.8);
+  text-decoration: underline;
 }

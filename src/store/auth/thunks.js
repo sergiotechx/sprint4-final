@@ -30,6 +30,7 @@ export const startCreatingUserWithEmailPassword = ({
   displayName,
   date,
   celphone,
+  photoURL
 }) => {
   return async (dispatch) => {
     dispatch(chekingCredentials());
@@ -39,6 +40,7 @@ export const startCreatingUserWithEmailPassword = ({
       displayName,
       date,
       celphone,
+      photoURL
     });
 
     if (!result.ok) return dispatch(logout(result.errorMessage));
@@ -110,6 +112,7 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
           displayName: result.displayName,
           date: result.date,
           celphone: result.celphone,
+          email: result.email,
         })
       );
 
