@@ -4,16 +4,19 @@ const initialState = {
   orders: [],
 };
 
-const orderSlice = createSlice({
+export const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
+    
     setOrders: (state, action) => {
       state.orders = action.payload;
     },
+    
     addOrder: (state, action) => {
       state.orders = [...state.orders, action.payload];
     },
+    
     updateOrder: (state, action) => {
       console.log(action.payload);
       state.orders = state.orders.map((order) =>
@@ -24,10 +27,15 @@ const orderSlice = createSlice({
           : order
       );
     },
+    deleteOrder: (state, action) => {
+      console.log(action.payload);
+      state.orders = []
+    },
+
   },
+
 });
 
-export const { setProducts, addProduct, updateProduct, deleteProduct } =
-  productSlice.actions;
+export const { setOrders, addOrder, updateOrder, deleteOrder } = orderSlice.actions;
+ 
 
-export default productSlice.reducer;
