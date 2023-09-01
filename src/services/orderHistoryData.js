@@ -10,10 +10,10 @@ import {
 
 export const getOrdersForUser = async (userId) => {
   try {
-
+    const userDocRef = doc(FirebaseDB, "Users", userId);
     const q = query(
       collection(FirebaseDB, "OrderHistory"),
-      where("UserId", "==", userId)
+      where("UserId", "==", userDocRef)
     );
     const querySnapshot = await getDocs(q);
    
