@@ -63,12 +63,40 @@
   button[type="submit"]:hover {
     background-color: #218838;
   }
-form{
-    label{
-        select{
-            option{
-                border: none;
-            }
-        }
+  .lists {
+    border: .1rem solid #ccc;
+    border-radius: 1rem;
+    
+    .restaurants-list {
+      margin: 1rem;
     }
-}
+    
+    .dishes-list {
+      margin: 1rem;
+    }
+    
+    table {
+      width: 100%;
+      border-radius: 1rem;
+      background-color: #0056b3;
+      
+      thead {
+        th {
+          border-left: .1rem solid #ccc;
+          border-bottom: .1rem solid #ccc;
+          padding: 5px;
+          color: white;  /* Agregado: Color de texto para los encabezados */
+        }
+      }
+      
+      tbody {
+        tr {
+          td {
+            border-left: .1rem solid #ccc;
+            padding: 5px;
+          }
+        }
+      }
+    }
+  }
+  
