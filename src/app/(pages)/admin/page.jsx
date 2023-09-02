@@ -6,6 +6,7 @@ import { fillRestaurantTypes } from "../../../store/restaurantTypes/thunks"
 import { listRestaurants } from "@/store/restaurants/thunks";
 import "./style.scss";
 import Swal from "sweetalert2";
+import { getDBRestaurantPlates } from "@/services/restaurantsData";
 
 function Page() {
   const [showForm, setShowForm] = useState(false); // Mostrar/Esconder form de platos
@@ -17,9 +18,11 @@ function Page() {
   const [dishprice, setDishPrice] = useState("");
   const [plato, setPlato] = useState("");
 
+
   const dispatch = useDispatch();
   const { restaurantTypes } = useSelector((store) => store.restaurantTypes);
   const { restaurants } = useSelector(store => store.restaurants);
+
   
 
   useEffect(() => {
@@ -27,6 +30,14 @@ function Page() {
     dispatch(fillRestaurantTypes());
     dispatch(listRestaurants());
   }, [dispatch]);
+
+  /////////////////////////////////////////////
+  //funcion para traer los platos al seleccionar un restaurante
+  const getRestaurantPLates =  async(restaurantID)=> {
+    const reponse =  await getDBRestaurantPlates(restaurantID)
+    console.log('los platillos!"!!!!',reponse)
+    setDishesList(reponse)
+  }
 
 
   const toggleForm = () => {
@@ -200,7 +211,8 @@ function Page() {
             <tbody>
               {restaurants?restaurants.map((restaurant, index) => (
                 <tr key={index}>
-                  <td>{restaurant.Name}</td>
+                  
+                  <td id='RestaurantName' onClick={()=>getRestaurantPLates(restaurant.id)}>{restaurant.Name}</td>
                   <td>{restaurant.tipo}</td>
                   <td>{restaurant.StartTime}</td>
                   <td>{restaurant.CloseTime}</td>
@@ -217,17 +229,17 @@ function Page() {
           <table>
             <thead>
               <tr>
-                <th>Restaurante</th>
                 <th>Platillo</th>
                 <th>Precio</th>
                 <th>Ingredientes</th>
               </tr>
             </thead>
             <tbody>
+              {console.log(dishesList)}
               {dishesList.map((dish, index) => (
                 <tr key={index}>
-                  <td>{dish.restaurantName}</td>
-                  <td>{dish.dishName}</td>
+                  <td>{dish.Name}</td>
+                  <td>{dish.Price}</td>
                   <td>{dish.dishprice}</td>
                   <td>{dish.dishIngredients}</td>
                 </tr>
