@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialValue = {
     restaurantTypes: [],
     error: null
+    
 }
 
 export const restaurantTypesSlice = createSlice({

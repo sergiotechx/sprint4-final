@@ -3,6 +3,7 @@ import { getRestaurantTypesFromCollection } from "@/services/restaurantTypes";
 
 export const fillRestaurantTypes = () => {
     return async(dispatch) => {
+        
         try {
             const restaurantTypes = await getRestaurantTypesFromCollection();
             //console.log(restaurantTypes);
