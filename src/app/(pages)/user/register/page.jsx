@@ -13,16 +13,22 @@ import {
 import { useRouter } from "next/navigation";
 import { useForm } from "@/hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
-import { startCreatingUserWithEmailPassword, startNewUSer, startNewUser } from "@/store/auth/thunks";
+import {
+  startCreatingUserWithEmailPassword,
+  startNewUSer,
+  startNewUser,
+} from "@/store/auth/thunks";
 import { store } from "@/store/store";
-
+import fileUpload from "@/services/fileUpload";
+import Swal from "sweetalert2";
 
 const formData = {
   email: "",
   password: "",
   displayName: "",
-  date:"",
-  celphone:""
+  date: "",
+  celphone: "",
+  photoURL: "",
 };
 
 const formValidations = {
@@ -38,6 +44,8 @@ const Pages = () => {
   const dispatch = useDispatch();
   const [formSubmitted, setFormSubmitted] = useState(false);
 
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const { status, errorMessage } = useSelector((state) => state.auth);
   const isCheckingAuthentication = useMemo(
     () => status === "checking",
@@ -49,6 +57,7 @@ const Pages = () => {
     email,
     password,
     date,
+    photoURL,
     celphone,
     onInputChange,
     formState,
@@ -58,28 +67,57 @@ const Pages = () => {
     passwordValid,
   } = useForm(formData, formValidations);
 
-  const router= useRouter()
+  const router = useRouter();
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-
+  
+    if (!selectedFile) {
+      console.error("No se ha seleccionado ningún archivo.");
+      return;
+    }
+  
+    const avatar = await fileUpload(selectedFile);
+    const createUser = {
+      ...formState,
+      photoURL: avatar,
+    };
+  
+    console.log("createUser:", createUser);
+  
     setFormSubmitted(true);
-
+  
     if (!isFormValid) return;
     dispatch(startCreatingUserWithEmailPassword(formState));
-    console.log(formState);
   };
 
-  const handleClik = () =>{
-    router .push('login')
-  }
+  const handleClik = () => {
+    router.push("login");
+  };
 
+ 
+  
   const onClickNewUser = async () => {
+    
     await dispatch(startCreatingUserWithEmailPassword(formState));
-    dispatch(startNewUser())
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const avatar = await fileUpload(selectedFile);
+    const updatedCreateUser = {
+      ...formState,
+      photoURL: avatar,
+    };
+
+    dispatch(startNewUser(updatedCreateUser));
+
+    Swal.fire(
+      "Bien hecho",
+      "Cuenta creada exitosamente",
+      "success"
+    )
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
     const currentState = store.getState().auth;
-    console.log('getState= ', currentState);
-  }; 
+  };
 
   return (
     <form onSubmit={onSubmit}>
@@ -147,6 +185,15 @@ const Pages = () => {
             onChange={onInputChange}
           />
         </Grid>
+        <Grid item xs={12} sx={{ mt: 2 }}>
+          <TextField
+            type="file"
+            fullWidth
+            name="photoURL"
+            accept="image/*"
+            onChange={(e) => setSelectedFile(e.target.files[0])}
+          />
+        </Grid>
 
         <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
           <Grid item xs={12} display={!!errorMessage ? "" : "none"}>
@@ -168,8 +215,8 @@ const Pages = () => {
         <Grid container direction="row" justifyContent="end">
           <Typography sx={{ mr: 1 }}>¿Ya tienes cuenta?</Typography>
           <span className="link" onClick={handleClik}>
-          Ingresar
-        </span>
+            Ingresar
+          </span>
         </Grid>
       </Grid>
     </form>

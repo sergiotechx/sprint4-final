@@ -1,21 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authSlice } from "./auth/authSlice";
-import { restaurantTypesSlice } from "./restaurantTypes/restaurantTypesSlice";
-import { restaurantsSlice } from "./restaurants/restaurantsSlice";
+import {orderSlice} from './order/orderReducer'
+import thunk from "redux-thunk";
+
 
 const rootReducer = {
   auth: authSlice.reducer,
-  restaurantTypes: restaurantTypesSlice.reducer,
-  restaurants: restaurantsSlice.reducer,
+  order: orderSlice.reducer
   // ...otros reducers si los tienes
 };
 
 export const store = configureStore({
   reducer: rootReducer,
+  middleware: [thunk]
   // ...otras configuraciones del store si es necesario
-  devTool: process.env.NODE_ENV !== "production",
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
 });

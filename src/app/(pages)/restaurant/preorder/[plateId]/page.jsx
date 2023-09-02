@@ -4,6 +4,8 @@ import { getDBOrgToppingsxPlate, getDBPlate } from '@/services/plateData'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from "next/navigation";
 import { Checkbox } from '@mantine/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { addOrderAct, updateOrder } from '../../../../../store/order/orderActions.'
 
 const Page = ({ params }) => {
 
@@ -16,11 +18,15 @@ const Page = ({ params }) => {
     Quantity: 1,
     TotalPrice: null
   }
+  const dispatch = useDispatch();
+  const orders = useSelector((store) => store.order);
   const [plateInfo, setPlateInfo] = useState({})
   const [toppingsxPlate, setToppingsxPlate] = useState([])
   const [toppingsValue, setToppingsValue] = useState([])
   const [order, setOrder] = useState({})
   const router = useRouter();
+
+
 
   const loadData = async (plateId) => {
 
@@ -41,11 +47,19 @@ const Page = ({ params }) => {
         Selected: false
       }))
     setOrder(orderStr)
+
+    try {
+      dispatch(addOrderAct(orderStr));
+      console.log('la vaina',orders)
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 
   const updateOrder = (data = {}) => {
     let temp = data
-  
+
     if (Object.keys(temp).length == 0) {
       temp = JSON.parse(JSON.stringify(order))
     }
@@ -70,7 +84,9 @@ const Page = ({ params }) => {
       })
       temp.TotalPrice = temp.Quantity * (temp.Price + sumtoppings)
       setOrder(temp)
+
     }
+
   }
 
   const goHome = () => {
@@ -79,6 +95,7 @@ const Page = ({ params }) => {
   const changeOrdQty = (operation) => {
 
     let temp = JSON.parse(JSON.stringify(order))
+    console.log(temp)
     if (operation === '-') {
       if (order.Quantity > 0) {
         temp.Quantity -= 1
@@ -87,10 +104,10 @@ const Page = ({ params }) => {
     else {
       temp.Quantity += 1
     }
-    if(toppingsxPlate.length > 0){
+    if (toppingsxPlate.length > 0) {
       updateOrder(temp)
     }
-    else{
+    else {
       temp.TotalPrice = temp.Quantity * temp.Price
       setOrder(temp)
     }
@@ -101,14 +118,14 @@ const Page = ({ params }) => {
   useEffect(() => {
     loadData(params.plateId)
   }, [])
-  
+
   useEffect(() => {
     updateOrder()
-    
+
   }, [toppingsValue])
-  
-  
-  
+
+
+
 
 
 

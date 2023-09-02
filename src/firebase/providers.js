@@ -1,5 +1,6 @@
 import {signInWithEmailAndPassword, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
 import { FirebaseAuth } from "./config";
+import { getDBUser } from "@/services/userData";
 
 const googleProvider = new GoogleAuthProvider()
 
@@ -29,17 +30,17 @@ export const signInWithgoogle = async() =>{
     }
 }
 
-export const registerUserWithEmailPassword = async({email, password, displayName, date, celphone}) => {
+export const registerUserWithEmailPassword = async({email, password, displayName, date, celphone, photoURL}) => {
     try {
         
        const resp = await createUserWithEmailAndPassword(FirebaseAuth, email, password);
-        const {uid, photoURL} = resp.user;
+        const {uid} = resp.user;
        //TODO: actualizar el displayName en Firebase
-       await updateProfile( FirebaseAuth.currentUser,{ displayName });
+       await updateProfile( FirebaseAuth.currentUser,{ displayName, photoURL});
 
        return {
         ok: true,
-        uid, photoURL, email, displayName,  date, celphone
+        uid, email, displayName,  date, celphone, photoURL,
        }
 
 
@@ -54,12 +55,19 @@ export const registerUserWithEmailPassword = async({email, password, displayName
 
 export const loginWithEmailPassword = async ({email, password} ) =>{
     try {
-        const resp = await signInWithEmailAndPassword( FirebaseAuth, email, password)
+        const resp = await signInWithEmailAndPassword( FirebaseAuth, email, password) 
         const {uid, photoURL, displayName, date, celphone } = resp.user;
+        getDBUser(uid)
+
+        const respuesta = await getDBUser(uid)
+
+        console.log(respuesta);
 
         return{
             ok: true,
-            uid, photoURL, displayName,date, celphone
+            email,
+            // uid, photoURL, displayName,date, celphone
+            ...respuesta
         }
 
     } catch (error) {

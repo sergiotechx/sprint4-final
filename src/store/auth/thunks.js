@@ -30,6 +30,7 @@ export const startCreatingUserWithEmailPassword = ({
   displayName,
   date,
   celphone,
+  photoURL
 }) => {
   return async (dispatch) => {
     dispatch(chekingCredentials());
@@ -39,6 +40,7 @@ export const startCreatingUserWithEmailPassword = ({
       displayName,
       date,
       celphone,
+      photoURL,
     });
 
     if (!result.ok) return dispatch(logout(result.errorMessage));
@@ -110,6 +112,7 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
           displayName: result.displayName,
           date: result.date,
           celphone: result.celphone,
+          email: result.email,
         })
       );
 
@@ -125,16 +128,14 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
   };
 };
 
-export const startNewUser = () => {
+export const startNewUser = (createUser) => {
   return async (dispatch, getState) => {
     
     const State = getState().auth;
 
-    console.log('Current State:', State);
-
     const newUser = {
       uid: State.uid,
-      photoURL: State.photoURL,
+      photoURL: createUser?.photoURL,
       email: State.email,
       displayName: State.displayName,
       date: State.date,
@@ -144,7 +145,6 @@ export const startNewUser = () => {
 
    const newDoc = doc(FirebaseDB, 'Users', State.uid);
    const setDocResp = await setDoc( newDoc, newUser );
-   console.log(newDoc, setDocResp);
   };
 };
 
@@ -153,7 +153,6 @@ export const starLoadingUser = () =>{
 
     const State = getState().auth;
 
-    console.log(State);
     //
   }
 }

@@ -11,24 +11,24 @@ import {
 } from "@/store/auth/thunks";
 import { useForm } from "@/hooks/useForm";
 import { chekingCredentials } from "@/store/auth/authSlice";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const Page = () => {
   const { status } = useSelector((state) => state.auth);
-  console.log("User data:", status);
+ 
   const router = useRouter();
   const dispatch = useDispatch();
+
   const { email, password, onInputChange } = useForm({
     email: "",
     password: "",
   });
-  
 
   const isAuthenticating = useMemo(() => status === "checking", [status]);
   const isLogin = useMemo(() => status === "authenticated", [status]);
 
   const onSubmit = async (event) => {
     event.preventDefault();
-
     dispatch(chekingCredentials());
     const result = await dispatch(
       startLoginWithEmailPassword({ email, password })
@@ -38,14 +38,13 @@ const Page = () => {
     }
   };
 
-  if(isLogin){
-    router.push("/")
+  if (isLogin) {
+    router.push("/");
   }
 
   const onGoogleSignIn = () => {
     dispatch(chekingCredentials());
-    dispatch(startGoogleSignIn()
-   );
+    dispatch(startGoogleSignIn());
   };
 
   if (isLogin) {
@@ -91,6 +90,7 @@ const Page = () => {
             type="button"
             onClick={onGoogleSignIn}
           >
+            <i className="bi bi-google"></i>
             Google
           </button>
         </div>
