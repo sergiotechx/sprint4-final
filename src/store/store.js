@@ -16,6 +16,6 @@ const rootReducer = {
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: [thunk]
+  middleware: [thunk] 
   // ...otras configuraciones del store si es necesario
 });
