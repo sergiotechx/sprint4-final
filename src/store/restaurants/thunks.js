@@ -4,8 +4,8 @@ import { setRestaurants, setError } from "./restaurantsSlice";
 
 export const listRestaurants = () => {
     return async (dispatch) => {
-
         try {
+            
             const restaurants = await getDBRestaurants();
             console.log(restaurants)
             dispatch(setRestaurants(restaurants));

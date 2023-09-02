@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fillRestaurantTypes } from "@/store/restaurantTypes/thunks";
+import { fillRestaurantTypes } from "../../../store/restaurantTypes/thunks"
 import { listRestaurants } from "@/store/restaurants/thunks";
 import "./style.scss";
 import Swal from "sweetalert2";
@@ -19,7 +19,6 @@ function Page() {
 
   const dispatch = useDispatch();
   const { restaurantTypes } = useSelector((store) => store.restaurantTypes);
-
   const { restaurants } = useSelector(store => store.restaurants);
   
 
