@@ -23,9 +23,10 @@ export const getOrdersForUser = async (userId) => {
     querySnapshot.forEach( (doc) => {
        tempArr.push({ id: doc.id, ...doc.data() });
     });
+    
     for(let index = 0; index<tempArr.length;index++){
-       const restaurant = (await getDoc(tempArr[0].RestaurantId)).data()
-       tempArr2.push({orderId:tempArr[index].id, TotalPrice:tempArr[index].TotalPrice, restaurantName:restaurant.Name,restaurantLogo:restaurant.LogoImg })
+       const restaurant = (await getDoc(tempArr[index].RestaurantId)).data()
+       tempArr2.push({orderId:tempArr[index].id, TotalPrice:tempArr[index].TotalPrice, Status:tempArr[index].Status,restaurantName:restaurant.Name,restaurantLogo:restaurant.LogoImg })
     }
     
     return tempArr2;
