@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fillRestaurantTypes } from "@/store/restaurantTypes/thunks";
+import { listRestaurants } from "@/store/restaurants/thunks";
 import "./style.scss";
 import Swal from "sweetalert2";
 
@@ -12,24 +13,22 @@ function Page() {
   const [dishName, setDishName] = useState("");
   const [dishImage, setDishImage] = useState("");
   const [dishIngredients, setDishIngredients] = useState("");
-  const [restaurantsList, setRestaurantsList] = useState([]); // Estado para la lista de restaurantes
   const [dishesList, setDishesList] = useState([]); // Estado para la lista de platillos
-  const [restaurantName, setRestaurantName] = useState(""); //Valor del nombre y actualizacion del restaurane
-  const [tipo, setTipo] = useState(""); //Valor del nombre y actualizacion del tipo de restaurane
-  const [abrir, setAbrir] = useState("");
-  const [cerrar, setCerrar] = useState("");
   const [dishprice, setDishPrice] = useState("");
   const [plato, setPlato] = useState("");
-  const [tiempo, setTiempo] = useState("");
-  const [descripcion, setDescripcion] = useState("");
 
   const dispatch = useDispatch();
   const { restaurantTypes } = useSelector((store) => store.restaurantTypes);
 
+  const { restaurants } = useSelector(store => store.restaurants);
+  
+
   useEffect(() => {
     
     dispatch(fillRestaurantTypes());
+    dispatch(listRestaurants());
   }, [dispatch]);
+
 
   const toggleForm = () => {
     setShowForm(!showForm);
@@ -43,29 +42,17 @@ function Page() {
 
     // Mostrar SweetAlert de "Aguarda Platillo"
     Swal.fire({
-      title: "Aguarda",
+      title: "guardado",
       text: "Procesando el agregado del platillo...",
       icon: "info",
     });
-    const newRestaurant = {
-      name: restaurantName,
-      tipo: tipo,
-      abrir: abrir,
-      cerrar: cerrar,
-      plato: plato,
-    };
-    setRestaurantsList([...restaurantsList, newRestaurant]);
   };
 
   const handleDishFormSubmit = (event) => {
     event.preventDefault();
 
     const newDish = {
-      restaurantName,
-      tipo,
-      abrir,
-      cerrar,
-      plato,
+     
       dishName,
       dishImage,
       dishIngredients,
@@ -94,8 +81,6 @@ function Page() {
               <label>
                 Tipo de restaurante
                 <select
-                  value={tipo}
-                  onChange={(e) => setTipo(e.target.value)}
                   id=""
                 >
                   <option value={null}>Seleccione un tipo</option>
@@ -108,17 +93,12 @@ function Page() {
                   ) : (
                     <option value={null}>...Cargando</option>
                   )}
-                  {/* <option>china</option>
-                  <option>Mexicana</option>
-                  <option>Italiana</option> */}
                 </select>
               </label>
               <label>
                 Nombre del Restaurante:
                 <input
                   type="text"
-                  value={restaurantName}
-                  onChange={(e) => setRestaurantName(e.target.value)}
                 />
               </label>
               <label>
@@ -131,13 +111,13 @@ function Page() {
               </label>
               <label>
                 Hora de apertura:
-                <input type="time" onChange={(e) => setAbrir(e.target.value)} />
+                <input type="time"  />
               </label>
               <label>
                 Hora de cierre
                 <input
                   type="time"
-                  onChange={(e) => setCerrar(e.target.value)}
+                  
                 />
               </label>
               <label>
@@ -167,8 +147,6 @@ function Page() {
                 Nombre del Restaurante:
                 <input
                   type="text"
-                  value={restaurantName}
-                  onChange={(e) => setRestaurantName(e.target.value)}
                 />
               </label>
               <label>
@@ -216,17 +194,21 @@ function Page() {
                 <th>Tipo</th>
                 <th>Hora de apertura</th>
                 <th>Hora de cierre</th>
+                <th>Descricion del Restaurante</th>
+                <th>Tiempo de empera del resturante</th>
               </tr>
             </thead>
             <tbody>
-              {restaurantsList.map((restaurant, index) => (
+              {restaurants?restaurants.map((restaurant, index) => (
                 <tr key={index}>
-                  <td>{restaurant.name}</td>
+                  <td>{restaurant.Name}</td>
                   <td>{restaurant.tipo}</td>
-                  <td>{restaurant.abrir}</td>
-                  <td>{restaurant.cerrar}</td>
+                  <td>{restaurant.StartTime}</td>
+                  <td>{restaurant.CloseTime}</td>
+                  <td>{restaurant.WaitingTime}</td>
+                  <td>{restaurant.Description}</td>
                 </tr>
-              ))}
+              )):<tr><td>...Cargando</td></tr>}
             </tbody>
           </table>
         </div>
