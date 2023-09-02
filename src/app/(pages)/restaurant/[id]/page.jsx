@@ -26,6 +26,7 @@ const Page = ({ params }) => {
       setplateTypeInfo(data2)
     }
     const data3 = await getDBRestaurantPlates(id)
+    console.log(data3)
     setPlatesInfo(data3)
     setPlatesInfoFiltered(JSON.parse(JSON.stringify(data3)))
   }
