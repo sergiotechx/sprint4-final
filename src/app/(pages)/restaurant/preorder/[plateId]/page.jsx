@@ -3,9 +3,9 @@ import './page.scss'
 import { getDBOrgToppingsxPlate, getDBPlate } from '@/services/plateData'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from "next/navigation";
-import { Checkbox } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { addOrderAct, updateOrder } from '../../../../../store/order/orderActions.'
+import { addOrderAct, updateOrderAct } from '../../../../../store/order/orderActions.'
+import Swal from 'sweetalert2'
 
 const Page = ({ params }) => {
 
@@ -22,19 +22,20 @@ const Page = ({ params }) => {
   const orders = useSelector((store) => store.order);
   const [plateInfo, setPlateInfo] = useState({})
   const [toppingsxPlate, setToppingsxPlate] = useState([])
-  const [toppingsValue, setToppingsValue] = useState([])
+  const [selectedToppings, setSelectedToppings] = useState([]);
   const [order, setOrder] = useState({})
   const router = useRouter();
 
 
 
   const loadData = async (plateId) => {
-
+    console.log('lo que deberia haber', orders)
     const data = await getDBPlate(plateId)
     setPlateInfo(data)
 
     const data2 = await getDBOrgToppingsxPlate(plateId)
     setToppingsxPlate(data2)
+
 
     orderStr.RestaurantId = data.RestaurantId.id
     orderStr.Price = data.Price
@@ -48,16 +49,11 @@ const Page = ({ params }) => {
       }))
     setOrder(orderStr)
 
-    try {
-      dispatch(addOrderAct(orderStr));
-      console.log('la vaina',orders)
-    }
-    catch (error) {
-      console.log(error)
-    }
+
   }
 
   const updateOrder = (data = {}) => {
+
     let temp = data
 
     if (Object.keys(temp).length == 0) {
@@ -68,7 +64,7 @@ const Page = ({ params }) => {
     }
     if (temp.Toppings.length > 0) {
       temp.Toppings.forEach((topping, index) => {
-        if (toppingsValue.indexOf(topping.ToppingId) != -1) {
+        if (selectedToppings.indexOf(topping.ToppingId) != -1) {
           temp.Toppings[index].Selected = true
         }
         else {
@@ -88,6 +84,39 @@ const Page = ({ params }) => {
     }
 
   }
+  const prepareOrder = async () => {
+
+    const result = await Swal.fire({
+      title: '¿Desea añadir la orden?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Grabar',
+      denyButtonText: `No grabar`,
+    })
+
+    if (result.isConfirmed) {
+      try {
+        if (orders.orders.length == 0) {
+          dispatch(addOrderAct(order));
+        }
+        else {
+        
+          const tempIndex = orders.orders.findIndex((order_) => order_.PlateId == order.PlateId)
+          
+          console.log('tempisa',tempIndex)
+          if (tempIndex > -1) {
+            dispatch(updateOrderAct(order))
+          }
+          else {
+            dispatch(addOrderAct(order));
+          }
+        }
+      }
+      catch (error) {
+        console.log(error)
+      }
+    }
+  }
 
   const goHome = () => {
     router.push('/')
@@ -95,7 +124,7 @@ const Page = ({ params }) => {
   const changeOrdQty = (operation) => {
 
     let temp = JSON.parse(JSON.stringify(order))
-    console.log(temp)
+
     if (operation === '-') {
       if (order.Quantity > 0) {
         temp.Quantity -= 1
@@ -118,20 +147,26 @@ const Page = ({ params }) => {
   useEffect(() => {
     loadData(params.plateId)
   }, [])
-
   useEffect(() => {
     updateOrder()
-
-  }, [toppingsValue])
-
+  }, [selectedToppings])
 
 
 
+  const handleCheckboxChange = (event) => {
+    const { value, checked } = event.target;
+    if (checked) {
+      setSelectedToppings([...selectedToppings, value]);
+    } else {
+      setSelectedToppings(selectedToppings.filter((toppingId) => toppingId !== value));
+    }
+  };
 
 
 
   return (
     <div className='preOrderC'>
+
       <div className='preOrderC_header'>
         <img id='plate' src={plateInfo?.PlateImage} />
         <img id='back'
@@ -147,33 +182,31 @@ const Page = ({ params }) => {
       <p id='description'>{plateInfo?.Description}</p>
       <p id='additional'>Ingredientes adicionales</p>
       <div className='preOrderC_toppings'>
-        <Checkbox.Group value={toppingsValue} onChange={setToppingsValue}>
-          {toppingsxPlate?.map((topping, index) =>
-            <div className='preOrderC_toppings_topping' key={index}>
-
-              <Checkbox
-                label={topping.Description}
+        {toppingsxPlate?.map((topping, index) =>
+          <div className='preOrderC_toppings_topping' key={index}>
+            <label>
+              <input
+                type="checkbox"
                 value={topping.ToppingId}
-                color="yellow"
-                radius="xs"
-                size="xs"
-
+                checked={selectedToppings.includes(topping.ToppingId)}
+                onChange={handleCheckboxChange}
               />
-              <span className={(toppingsValue.find(item => item == topping.ToppingId)) != undefined ? 'text-warning' : 'text-dark'}>+{topping?.Price}</span>
-            </div>
-
-          )}
-        </Checkbox.Group>
-
+              {topping.Description}
+            </label>
+            <span className={(selectedToppings.find(item => item == topping.ToppingId)) != undefined ? 'text-warning' : 'text-dark'}>+{topping?.Price}</span>
+          </div>
+        )}
       </div>
       <div className='preOrderC_footer'>
         <div className='preOrderC_footer_group1'>
+
           <button id='btn_left' onClick={() => changeOrdQty('-')}>-</button>
-          <input type='text' readOnly size="2" value={order?.Quantity} />
+          <input type='text' readOnly size="2" value={order?.Quantity || 1} />
           <button id='btn_right' onClick={() => changeOrdQty('+')}>+</button>
+
         </div>
         <div className='preOrderC_footer_group2'>
-          <button>añadir</button>
+          <button onClick={prepareOrder}>añadir</button>
           <p>{order?.TotalPrice} </p>
         </div>
       </div>
