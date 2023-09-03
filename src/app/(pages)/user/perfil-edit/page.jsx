@@ -22,7 +22,7 @@ const Page = ({params}) => {
 
 
   return (
-    <div>
+    <div className='perfilE'>
         <div className='header'>
             <span>
             <i onClick={handleClick} className="bi bi-chevron-left B"></i>

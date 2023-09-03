@@ -144,7 +144,6 @@ export const startNewUser = () => {
       celphone: State.celphone,
 
     }
-
    const newDoc = doc(FirebaseDB, 'Users', State.uid);
    const setDocResp = await setDoc( newDoc, newUser );
    console.log(newDoc, setDocResp);
