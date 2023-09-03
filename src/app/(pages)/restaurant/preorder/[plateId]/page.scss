@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 87vh;
     min-height:90vh;
    
     &_header{
@@ -62,6 +63,11 @@
             align-items: center;
             line-height: 1; 
             justify-content: space-between;
+            
+            input[type="checkbox"] {
+                accent-color: #FFDE55;
+                color: #FFDE55;
+            }
         }
     
     }
@@ -95,6 +101,7 @@
             input{
                 border: none;
                 background-color: #EFEFEF;
+                text-align: center;
             }
         }
         &_group2{

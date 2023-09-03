@@ -27,7 +27,7 @@ const Page = () => {
   }, []);
 
   return (
-    <>
+    <div className="orderContainer">
       <h4>All orders</h4>
       {orders?.map((order) => (
         <div className="orderPrimary" key={order.id}>
@@ -76,7 +76,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default Page;
