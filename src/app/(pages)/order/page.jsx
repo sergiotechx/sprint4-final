@@ -26,7 +26,7 @@ const Page = () => {
   }, []);
 
   return (
-    <>
+    <div className="orderContainer">
       <h4>All orders</h4>
       <div className="orderPrimary">
         <div className="orderSecundary">
@@ -64,7 +64,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default Page;

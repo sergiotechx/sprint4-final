@@ -203,6 +203,7 @@ const Pages = () => {
             <Button
               onClick={onClickNewUser}
               disabled={isCheckingAuthentication}
+              className="crear"
               type="submit"
               variant="contained"
               fullWidth
@@ -212,11 +213,11 @@ const Pages = () => {
           </Grid>
         </Grid>
 
-        <Grid container direction="row" justifyContent="end">
+        <Grid className="redireccion" container direction="row" justifyContent="end">
           <Typography sx={{ mr: 1 }}>¿Ya tienes cuenta?</Typography>
-          <span className="link" onClick={handleClik}>
-            Ingresar
-          </span>
+          <span className="redireccion__link" onClick={handleClik}>
+          Ingresar
+        </span>
         </Grid>
       </Grid>
     </form>

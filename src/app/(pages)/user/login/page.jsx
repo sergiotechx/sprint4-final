@@ -55,7 +55,7 @@ const Page = () => {
   };
 
   return (
-    <div>
+    <div className="LoginP">
       <form className=" form" onSubmit={onSubmit}>
         <h1>Init session</h1>
         <div className="mb-3">
@@ -96,9 +96,9 @@ const Page = () => {
         </div>
       </form>
       <h3>
-        Or created account{" "}
+       Sin cuenta? crea una cuenta{" "}
         <span className="link" onClick={handleClik}>
-          here
+          Aquí
         </span>
       </h3>
     </div>

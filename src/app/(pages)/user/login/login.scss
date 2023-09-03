@@ -3,6 +3,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+.LoginP{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 50px;
+  height: 87vh;
+  width: 380px
+}
 
 .form {
   background-color: #fff;
@@ -81,4 +89,7 @@
 .link:hover {
   transform: scaleX(1.8);
   text-decoration: underline;
+}
+.footerPrimary{
+  margin-top: 0;
 }
