@@ -22,7 +22,8 @@ const formData = {
   password: "",
   displayName: "",
   date:"",
-  celphone:""
+  celphone:"",
+  photoURL: ""
 };
 
 const formValidations = {
@@ -49,6 +50,7 @@ const Pages = () => {
     email,
     password,
     date,
+    photoURL,
     celphone,
     onInputChange,
     formState,
@@ -62,12 +64,12 @@ const Pages = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-
+    console.log(formState);
     setFormSubmitted(true);
 
     if (!isFormValid) return;
     dispatch(startCreatingUserWithEmailPassword(formState));
-    console.log(formState);
+    
   };
 
   const handleClik = () =>{
@@ -144,6 +146,15 @@ const Pages = () => {
             fullWidth
             name="celphone"
             value={celphone}
+            onChange={onInputChange}
+          />
+        </Grid>
+        <Grid item xs={12} sx={{ mt: 2 }}>
+          <TextField
+            type="file"
+            fullWidth
+            name="photoURL"
+            value={photoURL}
             onChange={onInputChange}
           />
         </Grid>

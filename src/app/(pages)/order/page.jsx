@@ -4,11 +4,7 @@ import "./order.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { usePathname, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
-import {
-  getDBOrder,
-  getFormateoOrdenes,
-  getOrdersForUser,
-} from "@/services/orderHistoryData";
+import { getDBOrder, getOrdersForUser } from "@/services/orderHistoryData";
 
 const Page = () => {
   const user = useSelector((state) => state.auth);
@@ -20,19 +16,13 @@ const Page = () => {
   };
 
   const Orders = async (uid) => {
-    //const respuesta = await getOrdersForUser(uid);
-    const otraRespuesta = await getFormateoOrdenes(
-      "BYvjpJKl5Ibi5G3IK9Keuzv1ACF3"
-    );
-    // console.log(respuesta);
-    // setOrders(respuesta);
-    // const respuesta2 = await getDBOrder(respuesta[0].id);
-    // console.log(respuesta2);
+    const response = await getOrdersForUser("BYvjpJKl5Ibi5G3IK9Keuzv1ACF3");
+    console.log("las ordenes", response);
+    setOrders(response);
   };
 
   useEffect(() => {
     Orders(user.uid);
-    getFormateoOrdenes();
     console.log(orders);
   }, []);
 

@@ -1,38 +1,22 @@
 import {
-  addProduct,
-  deleteProduct,
-  setProducts,
-  updateProduct,
+  addOrder,
+  updateOrder,
+  deleteOrder,
 } from "./orderReducer";
 
-export const getOrdersFromFirestore = () => {
-  return async (dispatch) => {
+
+
+export const addOrderAct = (order) => {
+  return  (dispatch) => {
     try {
-      const querySnapshot = await getDocs(productCollection);
-      const tempArr = [];
-      querySnapshot.forEach((doc) => {
-        tempArr.push({ id: doc.id, ...doc.data() });
-        console.log(`${doc.id} => ${doc.data()}`);
-      });
-      console.log("tempArr", tempArr);
-      dispatch(setProducts(tempArr));
+      dispatch(addOrder( order ));
     } catch (error) {
-      console.log("error", error.error);
+      throw error
     }
   };
 };
 
-export const addOrder = (order) => {
-  return async (dispatch) => {
-    try {
-      dispatch(addOrder({ order }));
-    } catch (error) {
-      console.log("error", error.error);
-    }
-  };
-};
-
-export const updateOrder = (order) => {
+export const updateOrderAct = (order) => {
     return async (dispatch) => {
     try {
       dispatch(updateOrder(order));
@@ -42,7 +26,7 @@ export const updateOrder = (order) => {
   };
 };
 
-export const deleteOrder = (order) => {
+export const deleteOrderAct = (order) => {
   return async (dispatch) => {
     try {
      

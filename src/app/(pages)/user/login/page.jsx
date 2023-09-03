@@ -11,10 +11,11 @@ import {
 } from "@/store/auth/thunks";
 import { useForm } from "@/hooks/useForm";
 import { chekingCredentials } from "@/store/auth/authSlice";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const Page = () => {
   const { status } = useSelector((state) => state.auth);
-  console.log("User data:", status);
+ 
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -89,6 +90,7 @@ const Page = () => {
             type="button"
             onClick={onGoogleSignIn}
           >
+            <i className="bi bi-google"></i>
             Google
           </button>
         </div>

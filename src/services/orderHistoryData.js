@@ -11,22 +11,32 @@ import { getDBRestaurants } from "./restaurantsData";
 
 export const getOrdersForUser = async (userId) => {
   try {
-    console.log(userId);
-    //const userDocRef = doc(FirebaseDB, "Users", userId);
-    //console.log(userDocRef);
+    const userDocRef = doc(FirebaseDB, "Users", userId);
     const q = query(
       collection(FirebaseDB, "OrderHistory"),
-      where("UserId", "==", userId)
+      where("UserId", "==", userDocRef)
     );
+
     const querySnapshot = await getDocs(q);
+
     let tempArr = [];
+    let tempArr2 = [];
+
     querySnapshot.forEach((doc) => {
       tempArr.push({ id: doc.id, ...doc.data() });
     });
-    const documentoRefe = tempArr[0].RestaurantId;
-    const docSnap = await getDoc(documentoRefe);
-    console.log("es de esto", docSnap.data());
-    return tempArr;
+    for (let index = 0; index < tempArr.length; index++) {
+      const restaurant = (await getDoc(tempArr[index].RestaurantId)).data();
+      tempArr2.push({
+        orderId: tempArr[index].id,
+        TotalPrice: tempArr[index].TotalPrice,
+        Status: tempArr[index].Status,
+        restaurantName: restaurant.Name,
+        restaurantLogo: restaurant.LogoImg,
+      });
+    }
+
+    return tempArr2;
   } catch (error) {
     throw error;
   }
@@ -41,23 +51,6 @@ export const getDBOrder = async (id) => {
     } else {
       return {};
     }
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const getFormateoOrdenes = async (userId) => {
-  try {
-    const ordenes = await getOrdersForUser(userId);
-    // const restaurantes = await getDBRestaurants();
-    // let resultados = [];
-    // ordenes.forEach((orden) => {
-    //   const restaurante = restaurantes.find(
-    //     (restaurnate) => restaurante.id == orden.RestaurantId
-    //   );
-    //   console.log(restaurnate);
-    // });
-    // console.log(restaurantes);
   } catch (error) {
     throw error;
   }

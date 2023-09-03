@@ -1,13 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authSlice } from "./auth/authSlice";
-import { restaurantTypesSlice } from "./restaurantTypes/restaurantTypesSlice";
+import {orderSlice} from './order/orderReducer'
+import thunk from "redux-thunk";
+
 
 const rootReducer = {
   auth: authSlice.reducer,
+  order: orderSlice.reducer
   // ...otros reducers si los tienes
 };
 
 export const store = configureStore({
   reducer: rootReducer,
+  middleware: [thunk]
   // ...otras configuraciones del store si es necesario
 });
