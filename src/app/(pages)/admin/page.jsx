@@ -185,7 +185,9 @@ function Page() {
                 Tiempo de espera:
                 <input             
                 value ={restaurantForm.WaitingTime}
-                onChange={(event) => setRestaurantFormName({ ...restaurantForm, Description: event.target.value })}/>
+                onChange={(event) => setRestaurantFormName({ ...restaurantForm, WaitingTime: event.target.value })}
+
+                />
               </label>
               <label>
                 Imagen de su platillo Estrella:
@@ -195,7 +197,7 @@ function Page() {
                 Descripcion del restaurante:
                 <textarea name="" id="" 
                   value ={restaurantForm.Description}
-                  onChange={(event) => setRestaurantFormName({ ...restaurantForm, WaitingTime: event.target.value })}>
+                  onChange={(event) => setRestaurantFormName({ ...restaurantForm, Description: event.target.value })}>
                 </textarea>
               </label>
               <button type="submit">Agregar Restaurante</button>
@@ -272,8 +274,7 @@ function Page() {
                   <td className="neno">{restaurant.StartTime} a {restaurant.CloseTime}</td>
                   <td className="neno">{restaurant.WaitingTime} Minutos</td>
                   <td >{restaurant.Description}</td>
-                  <td>
-                  <div className="icon-container">
+                  <td><div className="icon-container">
                      <svg
                      xmlns="http://www.w3.org/2000/svg" 
                      width="30" 
