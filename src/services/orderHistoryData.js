@@ -7,6 +7,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { getDBRestaurants } from "./restaurantsData";
 
 export const getOrdersForUser = async (userId) => {
   try {
@@ -15,20 +16,27 @@ export const getOrdersForUser = async (userId) => {
       collection(FirebaseDB, "OrderHistory"),
       where("UserId", "==", userDocRef)
     );
+
     const querySnapshot = await getDocs(q);
-   
+
     let tempArr = [];
     let tempArr2 = [];
-    
-    querySnapshot.forEach( (doc) => {
-       tempArr.push({ id: doc.id, ...doc.data() });
+
+    querySnapshot.forEach((doc) => {
+      tempArr.push({ id: doc.id, ...doc.data() });
     });
-    
-    for(let index = 0; index<tempArr.length;index++){
-       const restaurant = (await getDoc(tempArr[index].RestaurantId)).data()
-       tempArr2.push({orderId:tempArr[index].id, TotalPrice:tempArr[index].TotalPrice, Status:tempArr[index].Status,restaurantName:restaurant.Name,restaurantLogo:restaurant.LogoImg })
+
+    for (let index = 0; index < tempArr.length; index++) {
+      const restaurant = (await getDoc(tempArr[index].RestaurantId)).data();
+      tempArr2.push({
+        orderId: tempArr[index].id,
+        TotalPrice: tempArr[index].TotalPrice,
+        Status: tempArr[index].Status,
+        restaurantName: restaurant.Name,
+        restaurantLogo: restaurant.LogoImg,
+      });
     }
-    
+
     return tempArr2;
   } catch (error) {
     throw error;

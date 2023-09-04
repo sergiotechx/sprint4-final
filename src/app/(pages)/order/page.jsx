@@ -11,13 +11,8 @@ const Page = () => {
   const router = useRouter();
   const [orders, setOrders] = useState([]);
 
-  const handleClick = () => {
-    router.push("/detail/82LMcy3gA7xCkxCu5lOK");
-  };
-
   const Orders = async (uid) => {
-    const response = await getOrdersForUser('BYvjpJKl5Ibi5G3IK9Keuzv1ACF3');
-    console.log('las ordenes',response);
+    const response = await getOrdersForUser(uid);
     setOrders(response);
   };
 
@@ -25,45 +20,37 @@ const Page = () => {
     Orders(user.uid);
   }, []);
 
+  const handleClick = (index) => {
+    router.push(`/detail/${index}`);
+  };
+
   return (
     <div className="orderContainer">
       <h4>All orders</h4>
-      <div className="orderPrimary">
-        <div className="orderSecundary">
-          <div className="divSection">
-            <img
-              className="imgRestaurant"
-              src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/restaurant-logo-design-template-b281aeadaa832c28badd72c1f6c5caad_screen.jpg?ts=1595421543"
-              alt=""
-            />
-            <div>
-              <span className="span1">Parders restautant</span>
-              <span className="span2">$ 132.00</span>
+      {orders?.map((order) => (
+        <div className="orderPrimary" key={order.id}>
+          <div className="orderSecundary">
+            <div className="divSection">
+              <img
+                className="imgRestaurant"
+                src={order.restaurantLogo}
+                alt="Logo restaurante"
+              />
+              <div>
+                <span className="span1 ">{order.restaurantName}</span>
+                <span className="span2">{order.TotalPrice}</span>
+              </div>
+            </div>
+            <div
+              onClick={() => handleClick(order.orderId)}
+              className={order.Status ? "status" : "status2"}
+            >
+              {order.Status ? " Delivered" : "Cancelled"}
+              <i className="bi bi-chevron-compact-right text-dark"></i>
             </div>
           </div>
-          <div onClick={handleClick} className="status">
-            Delivered<i className="bi bi-chevron-compact-right text-dark"></i>
-          </div>
         </div>
-      </div>
-      <div className="orderPrimary">
-        <div className="orderSecundary">
-          <div className="divSection">
-            <img
-              className="imgRestaurant"
-              src="https://media-cdn.tripadvisor.com/media/photo-s/1c/40/16/27/estamos-ubicados-en-laureles.jpg"
-              alt=""
-            />
-            <div>
-              <span className="span1">Coffee place</span>
-              <span className="span2">$ 55.20</span>
-            </div>
-          </div>
-          <div onClick={handleClick} className="status2">
-            Cancelled<i className="bi bi-chevron-compact-right text-dark"></i>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };
