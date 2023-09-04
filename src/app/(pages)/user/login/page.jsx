@@ -57,9 +57,9 @@ const Page = () => {
   return (
     <div className="LoginP">
       <form className=" form" onSubmit={onSubmit}>
-        <h1>Init session</h1>
+        <h1>Inicio de sesion</h1>
         <div className="mb-3">
-          <label className="form-label">Email</label>
+          <label className="form-label">Email:</label>
           <input
             type="email"
             className="form-control"
@@ -70,7 +70,7 @@ const Page = () => {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Password</label>
+          <label className="form-label">Password:</label>
           <input
             type="password"
             className="form-control"

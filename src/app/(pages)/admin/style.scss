@@ -80,8 +80,6 @@
       border-radius: 1rem;
       background-color: #5788bd;
       color: white;  /* Agregado: Color de texto para los encabezados */
-
-      
       thead {
         th {
           border-left: .1rem solid #ccc;
@@ -96,7 +94,7 @@
           td {
             color: white;  /* Agregado: Color de texto para los encabezados */
             border-left: .1rem solid #ccc;
-            padding: 5px;
+            padding: 1rem;
           }
         }
         #RestaurantName{
@@ -105,4 +103,31 @@
       }
     }
   }
-  
+  /* Estilo predeterminado para el icono, inicialmente oculto */
+
+
+/* Estilo para mostrar el icono cuando el usuario pasa el cursor sobre la fila */
+tr:hover .icon-container {
+  display: inline-block; /* Muestra el icono */
+}
+
+/* Estilo para el icono */
+.edit-icon {
+  width: 30px;
+  height: 30px;
+  fill: currentColor;
+  margin-right: 5px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+/* Transición suave al mostrar el icono */
+.icon-container {
+  transition: display 0.3s ease;
+}
+
+  @media(max-width:620px){
+    .neno {
+      display: none;
+    }
+  }

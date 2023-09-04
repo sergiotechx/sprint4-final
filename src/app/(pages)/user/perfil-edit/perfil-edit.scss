@@ -1,76 +1,75 @@
 .perfilE{
-    height: 87vh;
+  height: 87vh;
 }
 
 .header{
-    display: flex;
-    gap: 36%;
-    margin-left: 10px;
-    margin-top: 30px;    
+  display: flex;
+  gap: 36%;
+  margin-left: 10px;
+  margin-top: 30px;    
 }
 .B{
-    font-size: large;
-    color: black;
+  font-size: large;
+  color: black;
 }
 .imageEdit{ 
-    text-align: center;
+  text-align: center;
 }
 .figurEdit{
-    position: relative;
-    img{
-        width: 64px;
-        height: 64px;
-        border-radius: 30px;
-    }
+  position: relative;
+  img{
+      width: 64px;
+      height: 64px;
+      border-radius: 30px;
+  }
 }
 .C{
-    position: absolute;
-    top: 115px;
-    left: 205px;
+  position: absolute;
+  top: 115px;
+  left: 205px;
 }
 .inputs{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 .inputEdit{
-    width: 340px;
-    height: 44px;
-    flex-shrink: 0;
-    border-radius: 10px;
-    background: var(--complementary-color-light-gray, #F2F2F2);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-left: 15px;
-    input{
-        border: none;
-        background: var(--complementary-color-light-gray, #F2F2F2);
-    }
+  width: 340px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--complementary-color-light-gray, #F2F2F2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 15px;
+  input{
+      border: none;
+      background: var(--complementary-color-light-gray, #F2F2F2);
+  }
 }
 .buttonEdit{
-    width: 340px;
-    height: 44px;
-    flex-shrink: 0;
-    border-radius: 10px;
-    background: var(--complementary-color-light-gray, #F2F2F2);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-left: 15px;
-    border: none;  
+  width: 340px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--complementary-color-light-gray, #F2F2F2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 15px;
+  border: none;  
 }
 .buttonPE{
-    margin-top: 20px;
-    color: #fff;
-    border-radius: 10px;
-    background: var(--Main-color, #ffe031);
-    height: 40px;
-    width: 200px;
+  margin-top: 20px;
+  color: #fff;
+  border-radius: 10px;
+  background: var(--Main-color, #ffe031);
+  height: 40px;
+  width: 200px;
 }
-
