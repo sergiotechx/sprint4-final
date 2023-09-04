@@ -4,15 +4,18 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { useForm } from "react-hook-form";
 import "./newOrder.scss";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setNoteAct, updateOrderAct } from "@/store/order/orderActions.";
 
 const NewOrder = () => {
   const orders = useSelector((store) => store.order);
   const { register, handleSubmit } = useForm();
   const router = useRouter();
   const [note, setNote] = useState("");
+  const [labelNote, setLabelNote] = useState("");
   const [printnote, setPrintNote] = useState("");
   const ordersIndex = orders.orders;
+  const dispatch = useDispatch();
   const [quantities, setQuantities] = useState(
     ordersIndex.map((indexDetail) => indexDetail.Quantity)
   );
@@ -27,6 +30,10 @@ const NewOrder = () => {
     if (updatedQuantities[index] > 1) {
       updatedQuantities[index] -= 1;
       setQuantities(updatedQuantities);
+      let order = JSON.parse(JSON.stringify(orders.orders[index]));
+      order.Quantity = order.Quantity - 1;
+      dispatch(updateOrderAct(order));
+      console.log("las ordenes menos", order);
     }
   };
 
@@ -34,12 +41,18 @@ const NewOrder = () => {
     const updatedQuantities = [...quantities];
     updatedQuantities[index] += 1;
     setQuantities(updatedQuantities);
+    let order = JSON.parse(JSON.stringify(orders.orders[index]));
+    order.Quantity = order.Quantity + 1;
+    dispatch(updateOrderAct(order));
+    console.log("las ordenes mas", order);
   };
 
   const onSubmit = (data) => {
     const note = data.note;
+    setLabelNote(note);
     setPrintNote(note);
     setNote("");
+    dispatch(setNoteAct(note));
   };
 
   const handleNoteChange = (event) => {
@@ -65,6 +78,8 @@ const NewOrder = () => {
   useEffect(() => {
     const total = calculateTotalProducts();
     setTotalProducts(total);
+    //setNote(orders.note);
+    setLabelNote(orders.note);
   }, [quantities]);
 
   return (
@@ -98,33 +113,36 @@ const NewOrder = () => {
         </div>
       </section>
       {ordersIndex.map((indexDetail, index) => (
-        <section className="newOrder__section4" key={index}>
-          <div>
-            <img src={indexDetail.PlateImage} />
+        <>
+          {console.log(indexDetail)}
+          <section className="newOrder__section4" key={index}>
+            <div>
+              <img src={indexDetail.PlateImage} />
 
-            <div className="btn-group">
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => decreaseCount(index)}
-              >
-                -
-              </button>
-              <label className="">{quantities[index]}</label>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => increaseCount(index)}
-              >
-                +
-              </button>
+              <div className="btn-group">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => decreaseCount(index)}
+                >
+                  -
+                </button>
+                <label className="">{quantities[index]}</label>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => increaseCount(index)}
+                >
+                  +
+                </button>
+              </div>
+              <span>{indexDetail?.Name}</span>
             </div>
-            <span>{indexDetail?.Name}</span>
-          </div>
-          <span>$ {indexDetail?.Price * quantities[index]}</span>
-        </section>
+            <span>$ {indexDetail?.Price * quantities[index]}</span>
+          </section>
+        </>
       ))}
-      <p>{printnote}</p>
+      <p>{labelNote}</p>
       <form className="newOrder__section5" onSubmit={handleSubmit(onSubmit)}>
         <label>Note</label>
         <input
