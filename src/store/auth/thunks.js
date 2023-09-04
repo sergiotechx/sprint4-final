@@ -4,7 +4,7 @@ import {
   registerUserWithEmailPassword,
   signInWithgoogle,
 } from "../../firebase/providers";
-import { addNewUser, chekingCredentials, loging, logout } from "./authSlice";
+import { addNewUser, chekingCredentials, loging, logout, updateUser } from "./authSlice";
 import { FirebaseDB } from "@/firebase/config";
 
 export const checkingAuthetication = (email, password, date, celphone) => {
@@ -40,7 +40,7 @@ export const startCreatingUserWithEmailPassword = ({
       displayName,
       date,
       celphone,
-      photoURL
+      photoURL,
     });
 
     if (!result.ok) return dispatch(logout(result.errorMessage));
@@ -128,16 +128,14 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
   };
 };
 
-export const startNewUser = () => {
+export const startNewUser = (createUser) => {
   return async (dispatch, getState) => {
     
     const State = getState().auth;
 
-    console.log('Current State:', State);
-
     const newUser = {
       uid: State.uid,
-      photoURL: State.photoURL,
+      photoURL: createUser?.photoURL,
       email: State.email,
       displayName: State.displayName,
       date: State.date,
@@ -147,8 +145,7 @@ export const startNewUser = () => {
 
     }
    const newDoc = doc(FirebaseDB, 'Users', State.uid);
-   const setDocResp = await setDoc( newDoc, newUser );
-   console.log(newDoc, setDocResp);
+   await setDoc( newDoc, newUser );
   };
 };
 
@@ -157,7 +154,59 @@ export const starLoadingUser = () =>{
 
     const State = getState().auth;
 
-    console.log(State);
     //
   }
 }
+export const startUpdatingUser = (updatedUserData) => {
+  return async (dispatch, getState) => {
+    try {
+      
+      const State = getState().auth;
+      const updateDoc = doc(FirebaseDB, 'Users', State.uid);
+
+      const updatedData = {
+        displayName: updatedUserData.displayName,
+        celphone: updatedUserData.celphone,
+        date: updatedUserData.date,
+      };
+
+      
+      
+      await setDoc(updateDoc, updatedData, { merge: true });
+      
+      dispatch(updateUser(updatedData));
+
+      
+      
+
+    } catch (error) {
+      
+    }
+  };
+  };
+  export const startUpdatingPayment = (updatedPaymentData) => {
+    return async (dispatch, getState) => {
+      try {
+        
+        const State = getState().auth;
+        const updateDoc = doc(FirebaseDB, 'Users', State.uid);
+  
+        const updatedDataPay = {
+          CreditCard: updatedPaymentData.CreditCard,
+          Paypal: updatedPaymentData.Paypal,
+        };
+  
+        
+        
+        await setDoc(updateDoc, updatedDataPay, { merge: true });
+        
+        dispatch(updatePayment(updatedDataPay));
+  
+        
+        
+  
+      } catch (error) {
+        
+      }
+    };
+    };

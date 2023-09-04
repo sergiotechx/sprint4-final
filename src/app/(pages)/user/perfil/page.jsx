@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import React from 'react'
-import './perfil.scss'
+import React from "react";
+import "./perfil.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { useRouter } from 'next/navigation';
-import { useSelector } from 'react-redux';
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const Page = () => {
     const router = useRouter()
@@ -63,7 +63,7 @@ const Page = () => {
             </span>
         </div>
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

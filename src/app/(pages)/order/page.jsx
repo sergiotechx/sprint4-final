@@ -1,16 +1,32 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./order.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { usePathname, useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { getDBOrder, getOrdersForUser } from "@/services/orderHistoryData";
 
 const Page = () => {
+  const user = useSelector((state) => state.auth);
   const router = useRouter();
+  const [orders, setOrders] = useState([]);
+
   const handleClick = () => {
-    router.push("/detail");
+    router.push("/detail/82LMcy3gA7xCkxCu5lOK");
   };
+
+  const Orders = async (uid) => {
+    const response = await getOrdersForUser('BYvjpJKl5Ibi5G3IK9Keuzv1ACF3');
+    console.log('las ordenes',response);
+    setOrders(response);
+  };
+
+  useEffect(() => {
+    Orders(user.uid);
+  }, []);
+
   return (
-    <>
+    <div className="orderContainer">
       <h4>All orders</h4>
       <div className="orderPrimary">
         <div className="orderSecundary">
@@ -48,7 +64,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default Page;

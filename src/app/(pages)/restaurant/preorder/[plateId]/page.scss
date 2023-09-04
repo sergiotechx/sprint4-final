@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 87vh;
     min-height:90vh;
    
     &_header{
@@ -62,6 +63,11 @@
             align-items: center;
             line-height: 1; 
             justify-content: space-between;
+            
+            input[type="checkbox"] {
+                accent-color: #FFDE55;
+                color: #FFDE55;
+            }
         }
     
     }
@@ -85,6 +91,8 @@
             #btn_left{
                 border-top-left-radius: 5px ;
                 border-bottom-left-radius: 5px ;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
             }
             #btn_right{
                 border-top-right-radius: 5px ;
@@ -93,6 +101,7 @@
             input{
                 border: none;
                 background-color: #EFEFEF;
+                text-align: center;
             }
         }
         &_group2{
@@ -109,6 +118,7 @@
             }
             p{
              font-size: 1rem;
+             padding-right: 0.5rem;
             }
         }
     }
