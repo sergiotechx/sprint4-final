@@ -42,6 +42,7 @@ const Page = ({params}) => {
         <input type="number" value={user?.celphone} />
         <i className="bi bi-pencil"></i>
       </div>
+      
       <div className='inputEdit'>
         <input type="text" value={user?.date} />
         <i className="bi bi-pencil "></i>

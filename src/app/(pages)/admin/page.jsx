@@ -262,7 +262,7 @@ function Page() {
                 <th>Restaurante</th>
                 <th className="neno">Horario de Atencion</th>
                 <th className="neno">Tiempo de espera en el resturante</th>
-                <th > Descricion del Restaurante</th>
+                <th className="none"> Descricion del Restaurante</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
               </tr>
@@ -273,7 +273,7 @@ function Page() {
                   <td id='RestaurantName' onClick={()=>getRestaurantPLates(restaurant.id)}>{restaurant.Name}</td>
                   <td className="neno">{restaurant.StartTime} a {restaurant.CloseTime}</td>
                   <td className="neno">{restaurant.WaitingTime} Minutos</td>
-                  <td >{restaurant.Description}</td>
+                  <td className="none" >{restaurant.Description}</td>
                   <td><div className="icon-container">
                      <svg
                      xmlns="http://www.w3.org/2000/svg" 
@@ -309,7 +309,7 @@ function Page() {
                 <th>Platillo</th>
                 <th className="neno">Precio</th>
                 <th className="neno">Delivery</th>
-                <th>Descripcion del platillo</th>
+                <th className="none">Descripcion del platillo</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
               </tr>
@@ -320,7 +320,7 @@ function Page() {
                   <td>{dish.Name}</td>
                   <td className="neno">${dish.Price}</td>
                   <td className="neno">{dish.DeliveryTime} Minutos</td>
-                  <td>{dish.Description}</td>
+                  <td className="none">{dish.Description}</td>
                   <td><div className="icon-container"> <svg
                       onClick={()=>handlePlatilloEditClick(dish.id)} // Agrega el evento de clic
                      xmlns="http://www.w3.org/2000/svg" 
