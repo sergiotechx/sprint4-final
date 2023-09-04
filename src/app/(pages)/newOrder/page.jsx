@@ -31,7 +31,9 @@ const NewOrder = () => {
       updatedQuantities[index] -= 1;
       setQuantities(updatedQuantities);
       let order = JSON.parse(JSON.stringify(orders.orders[index]));
+      let initialPrice = order.TotalPrice / order.Quantity;
       order.Quantity = order.Quantity - 1;
+      order.TotalPrice = initialPrice *order.Quantity
       dispatch(updateOrderAct(order));
       console.log("las ordenes menos", order);
     }
@@ -42,7 +44,9 @@ const NewOrder = () => {
     updatedQuantities[index] += 1;
     setQuantities(updatedQuantities);
     let order = JSON.parse(JSON.stringify(orders.orders[index]));
+    let initialPrice = order.TotalPrice / order.Quantity;
     order.Quantity = order.Quantity + 1;
+    order.TotalPrice = initialPrice * order.Quantity
     dispatch(updateOrderAct(order));
     console.log("las ordenes mas", order);
   };
