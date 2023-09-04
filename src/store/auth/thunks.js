@@ -142,6 +142,8 @@ export const startNewUser = () => {
       displayName: State.displayName,
       date: State.date,
       celphone: State.celphone,
+      CreditCard: "",
+      Paypal: "",
 
     }
    const newDoc = doc(FirebaseDB, 'Users', State.uid);

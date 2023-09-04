@@ -11,8 +11,11 @@ const Page = () => {
 
     const user = useSelector((state) => state.auth);
     
-    const handleClick = () =>{
+    const goToEdit = () =>{
         router.push('perfil-edit')
+    }
+    const goToPayment = () =>{
+        router.push('perfil-payment')
     }
   return (
     <div>
@@ -24,9 +27,9 @@ const Page = () => {
         </div>
         <div className='options'>
             <span className='option'>
-            <i onClick={handleClick} className="bi bi-person l"></i>
-            <p onClick={handleClick}>Account edit</p>
-            <i onClick={handleClick} className="bi bi-chevron-right r"></i>
+            <i onClick={goToEdit} className="bi bi-person l"></i>
+            <p onClick={goToEdit}>Account edit</p>
+            <i onClick={goToEdit} className="bi bi-chevron-right r"></i>
             </span>
             <span className='option'>
             <i className="bi bi-bell l"></i>
@@ -34,9 +37,9 @@ const Page = () => {
             <i className="bi bi-chevron-right r"></i>
             </span>
             <span className='option'>
-            <i className="bi bi-credit-card l"></i>
-            <p>Payment</p>
-            <i className="bi bi-chevron-right r"></i>
+            <i onClick={goToPayment} className="bi bi-credit-card l"></i>
+            <p onClick={goToPayment} >Payment</p>
+            <i onClick={goToPayment} className="bi bi-chevron-right r"></i>
             </span>
             <span className='option'>
             <i className="bi bi-globe l"></i>

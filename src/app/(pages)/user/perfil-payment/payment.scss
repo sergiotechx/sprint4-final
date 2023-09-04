@@ -1,0 +1,20 @@
+.pagos{
+    height: 87vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.form-select{
+    display: flex;
+    margin-bottom: 70px;
+   
+}
+.buttonPAY{
+    border-radius: 10px;
+  background: var(--Main-color, #ffe031);
+  height: 40px;
+  width: 100px;
+}
+
+
