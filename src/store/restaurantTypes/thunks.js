@@ -6,7 +6,7 @@ export const fillRestaurantTypes = () => {
         
         try {
             const restaurantTypes = await getRestaurantTypesFromCollection();
-            //console.log(restaurantTypes);
+            console.log(restaurantTypes);
             dispatch(setRestaurantTypes(restaurantTypes));
             
         } catch (error) {
