@@ -30,28 +30,75 @@ const Page = ({ params }) => {
   const router = useRouter();
 
   const loadData = async (plateId) => {
-    console.log("lo que deberia haber", orders);
-    const data = await getDBPlate(plateId);
-    setPlateInfo(data);
+
+    const data = await getDBPlate(plateId)
+    setPlateInfo(data)
 
     const data2 = await getDBOrgToppingsxPlate(plateId);
     setToppingsxPlate(data2);
 
-    orderStr.RestaurantId = data.RestaurantId.id;
-    orderStr.Price = data.Price;
-    orderStr.PlateImage = data.PlateImage;
-    orderStr.Name = data.Name;
-    orderStr.TotalPrice = data.Price;
-    data2.map((topping) =>
-      orderStr.Toppings.push({
-        ToppingId: topping.ToppingId,
-        Price: topping.Price,
-        Descriptcion: topping.description,
-        Selected: false,
-      })
-    );
-    setOrder(orderStr);
-  };
+    if (orders.orders.length == 0) {
+      orderStr.RestaurantId = data.RestaurantId.id
+      orderStr.Price = Number(data.Price)
+      orderStr.TotalPrice = Number(data.Price)
+      data2.map((topping) => orderStr.Toppings.push(
+        {
+          ToppingId: topping.ToppingId,
+          Price: Number(topping.Price),
+          Descriptcion: topping.description,
+          Selected: false
+        }))
+      setOrder(orderStr)
+    }
+    else {
+      let temp = JSON.parse(JSON.stringify(orders.orders))
+      const tempIndex = temp.findIndex((order_) => order_.PlateId == plateId)
+
+      if (tempIndex > -1) {
+        let temp2 = temp[tempIndex]
+
+        orderStr.RestaurantId = data.RestaurantId.id
+        orderStr.Price = Number(temp2.Price)
+        orderStr.TotalPrice = Number(temp2.TotalPrice)
+        orderStr.Quantity = Number(temp2.Quantity)
+        let tempToppings = []
+
+        temp2.Toppings.map((topping) => {
+          orderStr.Toppings.push(
+            {
+              ToppingId: topping.ToppingId,
+              Price: Number(topping.Price),
+              Descriptcion: topping.description,
+              Selected: topping.Selected
+            })
+          if (topping.Selected) {
+            tempToppings.push(topping.ToppingId)
+          }
+        }
+        )
+        setSelectedToppings(tempToppings)
+        setOrder(orderStr)
+      
+      }
+      else {
+        orderStr.RestaurantId = data.RestaurantId.id
+        orderStr.Price = Number(data.Price)
+        orderStr.TotalPrice = Number(data.Price)
+        data2.map((topping) => orderStr.Toppings.push(
+          {
+            ToppingId: topping.ToppingId,
+            Price: Number(topping.Price),
+            Descriptcion: topping.description,
+            Selected: false
+          }))
+        setOrder(orderStr)
+      }
+
+
+
+
+    }
+  }
 
   const updateOrder = (data = {}) => {
     let temp = data;
@@ -76,9 +123,11 @@ const Page = ({ params }) => {
         if (topping.Selected) {
           sumtoppings += topping.Price;
         }
-      });
-      temp.TotalPrice = temp.Quantity * (temp.Price + sumtoppings);
-      setOrder(temp);
+      })
+      temp.TotalPrice = temp.Quantity * (temp.Price + sumtoppings)
+
+      setOrder(temp)
+
     }
   };
   const prepareOrder = async () => {
@@ -94,11 +143,12 @@ const Page = ({ params }) => {
       try {
         if (orders.orders.length == 0) {
           dispatch(addOrderAct(order));
-        } else {
-          const tempIndex = orders.orders.findIndex(
-            (order_) => order_.PlateId == order.PlateId
-          );
+        }
+        else {
 
+          const tempIndex = orders.orders.findIndex((order_) => order_.PlateId == order.PlateId)
+
+          console.log('tempisa', tempIndex)
           if (tempIndex > -1) {
             dispatch(updateOrderAct(order));
           } else {
@@ -151,11 +201,12 @@ const Page = ({ params }) => {
   };
 
   return (
-    <div className="preOrderC">
-      <div className="preOrderC_header">
-        <img id="plate" src={plateInfo?.PlateImage} />
-        <img
-          id="back"
+
+    <div className='preOrderC'>
+      {console.log('uiiiiiiii', selectedToppings)}
+      <div className='preOrderC_header'>
+        <img id='plate' src={plateInfo?.PlateImage} />
+        <img id='back'
           src="/images/chevron-back-outline.svg"
           alt="back"
           onClick={goHome}
