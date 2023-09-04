@@ -51,7 +51,7 @@ const NewOrder = () => {
   };
 
   const buttonOrder = () => {
-    console.log(ordersIndex);
+    console.log("button order");
   };
 
   const calculateTotalProducts = () => {
@@ -86,7 +86,7 @@ const NewOrder = () => {
       <section className="newOrder__section3">
         <span>Payment</span>
         <div>
-          <button className="button1">Cash</button>
+          <button className="bn button1">Cash</button>
           <button className="button2">
             <img src="/images/LTC.png" alt="targeta de credito" />
             23598
