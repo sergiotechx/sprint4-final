@@ -71,22 +71,22 @@ const Pages = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-  
+
     if (!selectedFile) {
       console.error("No se ha seleccionado ningún archivo.");
       return;
     }
-  
+
     const avatar = await fileUpload(selectedFile);
     const createUser = {
       ...formState,
       photoURL: avatar,
     };
-  
+
     console.log("createUser:", createUser);
-  
+
     setFormSubmitted(true);
-  
+
     if (!isFormValid) return;
     dispatch(startCreatingUserWithEmailPassword(formState));
   };
@@ -95,10 +95,7 @@ const Pages = () => {
     router.push("login");
   };
 
- 
-  
   const onClickNewUser = async () => {
-    
     await dispatch(startCreatingUserWithEmailPassword(formState));
     await new Promise((resolve) => setTimeout(resolve, 0));
     const avatar = await fileUpload(selectedFile);
@@ -109,11 +106,7 @@ const Pages = () => {
 
     dispatch(startNewUser(updatedCreateUser));
 
-    Swal.fire(
-      "Bien hecho",
-      "Cuenta creada exitosamente",
-      "success"
-    )
+    Swal.fire("Bien hecho", "Cuenta creada exitosamente", "success");
 
     await new Promise((resolve) => setTimeout(resolve, 0));
     const currentState = store.getState().auth;
@@ -213,11 +206,16 @@ const Pages = () => {
           </Grid>
         </Grid>
 
-        <Grid className="redireccion" container direction="row" justifyContent="end">
+        <Grid
+          className="redireccion"
+          container
+          direction="row"
+          justifyContent="end"
+        >
           <Typography sx={{ mr: 1 }}>¿Ya tienes cuenta?</Typography>
           <span className="redireccion__link" onClick={handleClik}>
-          Ingresar
-        </span>
+            Ingresar
+          </span>
         </Grid>
       </Grid>
     </form>
