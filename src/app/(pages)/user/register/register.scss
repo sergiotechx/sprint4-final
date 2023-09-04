@@ -32,3 +32,21 @@
         border-bottom: 1px solid black;
     }   
 }
+.crear{
+    border-radius: 10px;
+    background: var(--Main-color, #ffe031);
+}
+.crear:hover{
+    background: var(--Main-color, #ffe031);
+}
+.redireccion{
+    display: flex;
+    justify-content: center;
+    &__link{
+        color: #ffe031;
+        cursor: pointer;
+    }
+    &__link:hover{
+        text-decoration: underline;
+    }
+}

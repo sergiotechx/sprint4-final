@@ -35,7 +35,15 @@ export const authSlice = createSlice({
             state.photoURL = payload.photoURL;
         },
         updateUser:(state,{payload}) =>{
-
+            state.displayName = payload.displayName;
+            state.celphone = payload.celphone;
+            state.date = payload.date;
+            state.CreditCard = payload.CreditCard;
+            state.Paypal = payload.Paypal;
+        },
+        updatePayment:(state,{payload}) =>{
+            state.CreditCard = payload.CreditCard;
+            state.Paypal = payload.Paypal;
         },
         logout: (state,{payload}) =>{
             state.status = 'not-authenticated', // checking
@@ -53,4 +61,4 @@ export const authSlice = createSlice({
     }
 });
 
-export const { loging, logout, chekingCredentials, addNewUser, updateUser } = authSlice.actions;
+export const { loging, logout, chekingCredentials, addNewUser, updateUser, updatePayment } = authSlice.actions;

@@ -4,7 +4,7 @@ import {
   registerUserWithEmailPassword,
   signInWithgoogle,
 } from "../../firebase/providers";
-import { addNewUser, chekingCredentials, loging, logout } from "./authSlice";
+import { addNewUser, chekingCredentials, loging, logout, updateUser } from "./authSlice";
 import { FirebaseDB } from "@/firebase/config";
 
 export const checkingAuthetication = (email, password, date, celphone) => {
@@ -140,11 +140,12 @@ export const startNewUser = (createUser) => {
       displayName: State.displayName,
       date: State.date,
       celphone: State.celphone,
+      CreditCard: "",
+      Paypal: "",
 
     }
-
    const newDoc = doc(FirebaseDB, 'Users', State.uid);
-   const setDocResp = await setDoc( newDoc, newUser );
+   await setDoc( newDoc, newUser );
   };
 };
 
@@ -156,3 +157,56 @@ export const starLoadingUser = () =>{
     //
   }
 }
+export const startUpdatingUser = (updatedUserData) => {
+  return async (dispatch, getState) => {
+    try {
+      
+      const State = getState().auth;
+      const updateDoc = doc(FirebaseDB, 'Users', State.uid);
+
+      const updatedData = {
+        displayName: updatedUserData.displayName,
+        celphone: updatedUserData.celphone,
+        date: updatedUserData.date,
+      };
+
+      
+      
+      await setDoc(updateDoc, updatedData, { merge: true });
+      
+      dispatch(updateUser(updatedData));
+
+      
+      
+
+    } catch (error) {
+      
+    }
+  };
+  };
+  export const startUpdatingPayment = (updatedPaymentData) => {
+    return async (dispatch, getState) => {
+      try {
+        
+        const State = getState().auth;
+        const updateDoc = doc(FirebaseDB, 'Users', State.uid);
+  
+        const updatedDataPay = {
+          CreditCard: updatedPaymentData.CreditCard,
+          Paypal: updatedPaymentData.Paypal,
+        };
+  
+        
+        
+        await setDoc(updateDoc, updatedDataPay, { merge: true });
+        
+        dispatch(updatePayment(updatedDataPay));
+  
+        
+        
+  
+      } catch (error) {
+        
+      }
+    };
+    };
