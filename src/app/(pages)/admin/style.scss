@@ -104,9 +104,7 @@
     }
   }
   /* Estilo predeterminado para el icono, inicialmente oculto */
-.icon-container {
-  display: none;
-}
+
 
 /* Estilo para mostrar el icono cuando el usuario pasa el cursor sobre la fila */
 tr:hover .icon-container {
@@ -128,4 +126,8 @@ tr:hover .icon-container {
   transition: display 0.3s ease;
 }
 
-  
+  @media(max-width:620px){
+    .neno {
+      display: none;
+    }
+  }

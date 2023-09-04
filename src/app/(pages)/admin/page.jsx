@@ -157,7 +157,8 @@ function Page() {
                 <input
                   type="text"
                   value ={restaurantForm.Name}
-                  onChange={(event) => setRestaurantFormName({ ...restaurantForm, Name: event.target.value })}/>
+                  onChange={(event) => setRestaurantFormName({ ...restaurantForm, Name: event.target.value })}
+                  />
               </label>
               <label>
                 Logo del restaurante:
@@ -210,8 +211,10 @@ function Page() {
               <label>
                 Nombre del Restaurante:
                 <input
-                  value ={platilloForm.Name}
-                  onChange={(event) => setPlatilloForm({ ...platilloForm, Name: event.target.value })}
+                  value ={platilloForm.RestaurantName
+                  }
+                  onChange={(event) => setPlatilloForm({ ...platilloForm, RestaurantName
+                    : event.target.value })}
                   type="text"
                 />
               </label>
@@ -232,12 +235,16 @@ function Page() {
               <label>
                 Precio:
                 <input
+                 value ={platilloForm.Price}
+                 onChange={(event) => setPlatilloForm({ ...platilloForm, Price: event.target.value })}
                   type="text"
                 />
               </label>
               <label>
-                Ingredientes del Platillo:
-                <textarea/>
+                Descripcion del Platillo:
+                <textarea  
+                value ={platilloForm.Description}
+                  onChange={(event) => setPlatilloForm({ ...platilloForm, Description: event.target.value })}/>
               </label>
               <button type="submit">Agregar Platillo</button>
             </form>
@@ -251,9 +258,9 @@ function Page() {
             <thead>
               <tr>
                 <th>Restaurante</th>
-                <th>Horario de Atencion</th>
-                <th>Tiempo de espera en el resturante</th>
-                <th>Descricion del Restaurante</th>
+                <th className="neno">Horario de Atencion</th>
+                <th className="neno">Tiempo de espera en el resturante</th>
+                <th > Descricion del Restaurante</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
               </tr>
@@ -262,9 +269,9 @@ function Page() {
               {restaurants?restaurants.map((restaurant, index) => (
                 <tr key={index}>
                   <td id='RestaurantName' onClick={()=>getRestaurantPLates(restaurant.id)}>{restaurant.Name}</td>
-                  <td>{restaurant.StartTime} a {restaurant.CloseTime}</td>
-                  <td>{restaurant.WaitingTime} Minutos</td>
-                  <td>{restaurant.Description}</td>
+                  <td className="neno">{restaurant.StartTime} a {restaurant.CloseTime}</td>
+                  <td className="neno">{restaurant.WaitingTime} Minutos</td>
+                  <td >{restaurant.Description}</td>
                   <td>
                   <div className="icon-container">
                      <svg
@@ -299,8 +306,8 @@ function Page() {
             <thead>
               <tr>
                 <th>Platillo</th>
-                <th>Precio</th>
-                <th>Delivery</th>
+                <th className="neno">Precio</th>
+                <th className="neno">Delivery</th>
                 <th>Descripcion del platillo</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
@@ -310,8 +317,8 @@ function Page() {
               {dishesList.map((dish, index) => (
                 <tr key={index}>
                   <td>{dish.Name}</td>
-                  <td>${dish.Price}</td>
-                  <td>{dish.DeliveryTime} Minutos</td>
+                  <td className="neno">${dish.Price}</td>
+                  <td className="neno">{dish.DeliveryTime} Minutos</td>
                   <td>{dish.Description}</td>
                   <td><div className="icon-container"> <svg
                       onClick={()=>handlePlatilloEditClick(dish.id)} // Agrega el evento de clic
