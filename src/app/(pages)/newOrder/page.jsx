@@ -1,12 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useForm } from "react-hook-form";
 import "./newOrder.scss";
 import { useRouter } from "next/navigation";
-
+import { useSelector } from "react-redux";
 
 const NewOrder = () => {
+  const orders = useSelector((store) => store.order);
   const [count, setCount] = useState(0);
   const { register, handleSubmit } = useForm();
   const router = useRouter();
@@ -37,6 +38,10 @@ const NewOrder = () => {
   const clearNotes = () => {
     setNote("");
   };
+
+  useEffect(() => {
+    console.log("Estoy en nueva orden", orders);
+  }, []);
 
   return (
     <div className="newOrder">

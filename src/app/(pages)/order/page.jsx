@@ -11,20 +11,18 @@ const Page = () => {
   const router = useRouter();
   const [orders, setOrders] = useState([]);
 
-  const handleClick = () => {
-    router.push("/detail/82LMcy3gA7xCkxCu5lOK");
-  };
-
   const Orders = async (uid) => {
-    const response = await getOrdersForUser("BYvjpJKl5Ibi5G3IK9Keuzv1ACF3");
-    console.log("las ordenes", response);
+    const response = await getOrdersForUser(uid);
     setOrders(response);
   };
 
   useEffect(() => {
     Orders(user.uid);
-    console.log(orders);
   }, []);
+
+  const handleClick = (index) => {
+    router.push(`/detail/${index}`);
+  };
 
   return (
     <div className="orderContainer">
@@ -35,21 +33,16 @@ const Page = () => {
             <div className="divSection">
               <img
                 className="imgRestaurant"
-                src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/restaurant-logo-design-template-b281aeadaa832c28badd72c1f6c5caad_screen.jpg?ts=1595421543"
-                alt=""
+                src={order.restaurantLogo}
+                alt="Logo restaurante"
               />
-
               <div>
-                <span className="span1 ">
-                  {console.log(order.RestaurantId)}
-                </span>
-
+                <span className="span1 ">{order.restaurantName}</span>
                 <span className="span2">{order.TotalPrice}</span>
               </div>
             </div>
-
             <div
-              onClick={handleClick}
+              onClick={() => handleClick(order.orderId)}
               className={order.Status ? "status" : "status2"}
             >
               {order.Status ? " Delivered" : "Cancelled"}
@@ -58,24 +51,6 @@ const Page = () => {
           </div>
         </div>
       ))}
-      <div className="orderPrimary">
-        <div className="orderSecundary">
-          <div className="divSection">
-            <img
-              className="imgRestaurant"
-              src="https://media-cdn.tripadvisor.com/media/photo-s/1c/40/16/27/estamos-ubicados-en-laureles.jpg"
-              alt=""
-            />
-            <div>
-              <span className="span1">Coffee place</span>
-              <span className="span2">$ 55.20</span>
-            </div>
-          </div>
-          <div onClick={handleClick} className="status2">
-            Cancelled<i className="bi bi-chevron-compact-right text-dark"></i>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

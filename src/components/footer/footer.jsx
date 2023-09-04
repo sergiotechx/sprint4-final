@@ -32,19 +32,14 @@ const Footer = () => {
   };
 
   const handleClik = () => {
-   if(isLogout){
-    Swal.fire(
-      "Oops",
-      "debes iniciar sesion para ir al perfil",
-      "error"
-    )
-    router.push("/user/login");
-   } 
-   if(isLogin){
-    router.push("/user/perfil");
-   }
-
-  }
+    if (isLogout) {
+      Swal.fire("Oops", "debes iniciar sesion para ir al perfil", "error");
+      router.push("/user/login");
+    }
+    if (isLogin) {
+      router.push("/user/perfil");
+    }
+  };
   return (
     <div className="footerPrimary">
       <i
@@ -59,14 +54,18 @@ const Footer = () => {
         }`}
         onClick={() => goRute("search")}
       ></i>
-      <i
-        className={`bi bi-stopwatch  ${
-          currentPath === "/order" || currentPath === "/detail"
-            ? "text-warning puntito"
-            : ""
-        }`}
-        onClick={() => goRute("order")}
-      ></i>
+      {isLogin ? (
+        <i
+          className={`bi bi-stopwatch  ${
+            currentPath === "/order" || currentPath === "/detail"
+              ? "text-warning puntito"
+              : ""
+          }`}
+          onClick={() => goRute("order")}
+        ></i>
+      ) : (
+        ""
+      )}
       <i
         className={`bi bi-cart-plus  ${
           currentPath === "/newOrder" ? "text-warning puntito" : ""
@@ -75,9 +74,12 @@ const Footer = () => {
       ></i>
       <i
         className={`bi bi-person  ${
-          currentPath === "/perfil" ? "text-warning puntito" : ""
+          currentPath === "/user/login" ||
+          currentPath === "/user/perfil" ||
+          currentPath === "/user/perfil-edit"
+            ? "text-warning puntito"
+            : ""
         }`}
-        // onClick={() => goRute("perfil")}
         onClick={handleClik}
       ></i>
     </div>
