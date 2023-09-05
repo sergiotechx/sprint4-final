@@ -1,5 +1,6 @@
 import { FirebaseDB } from "@/firebase/config";
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
@@ -53,6 +54,36 @@ export const getDBOrder = async (id) => {
       return {};
     }
   } catch (error) {
+    throw error;
+  }
+};
+
+export const newDbOrderHistory = async (OrderInfo) => {
+  try {
+    const docRefRestaurant = doc(
+      FirebaseDB,
+      "Restaurants",
+      OrderInfo.RestaurantId
+    );
+    const docRefUser = doc(FirebaseDB, "Users", OrderInfo.UserId);
+
+    const dbRef = collection(FirebaseDB, "OrderHistory");
+
+    const newData = {
+      Address: OrderInfo.Address,
+      CostDelivery: Number("4000"),
+      DateTime: OrderInfo.DateTime,
+      Plates: OrderInfo.Plates,
+      RestaurantId: docRefRestaurant,
+      Status: true,
+      Toppings: OrderInfo.Toppings,
+      TotalPrice: OrderInfo.TotalPrice,
+      UserId: docRefUser,
+    };
+    const newDocument = await addDoc(dbRef, newData);
+    return newDocument;
+  } catch (error) {
+    console.log("Nueva orden aca!!!");
     throw error;
   }
 };
