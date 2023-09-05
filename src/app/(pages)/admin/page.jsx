@@ -40,6 +40,11 @@ function Page() {
   const toggleForm = () => {
     setShowForm(!showForm);
   };
+  const toggleForm2 = () => {
+    setOperation("New");
+    setShowForm(!showForm);
+  };
+
   const toggleRestaurantForm = () => {
     setShowRestaurantForm(!showRestaurantForm);
   };
@@ -86,6 +91,7 @@ function Page() {
 
       if (Object.keys(PlatilloInfo).length > 0) {
         setPlatilloForm(PlatilloInfo);
+        setOperation("Edit");
         toggleForm();
       }
     }
@@ -267,7 +273,7 @@ function Page() {
           </div>
         )}
 
-        <button onClick={toggleForm}>Agregar Nuevo Platillo</button>
+        <button onClick={toggleForm2}>Agregar Nuevo Platillo</button>
 
         {showForm && (
           <div className="add-dish-form">
@@ -328,8 +334,12 @@ function Page() {
                   }
                 />
               </label>
-
+              {operation === "New" ? (
               <button type="submit">Agregar Platillo</button>
+               ) : (
+              <button type="submit">Actualizar Platillo</button>
+              )}
+
             </form>
           </div>
         )}
