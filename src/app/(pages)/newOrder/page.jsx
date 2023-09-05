@@ -81,7 +81,6 @@ const NewOrder = () => {
 
   const buttonOrder = async () => {
     try {
-      console.log("mostrar data", ordersIndex);
       upNewOrder.Address = "882 Well St, New-York";
       upNewOrder.CostDelivery = Number("4000");
       upNewOrder.DateTime = "fecha";
@@ -105,9 +104,8 @@ const NewOrder = () => {
       upNewOrder.TotalPrice = totalPriceSum + 4000;
       upNewOrder.UserId = auth.uid;
 
-      console.log(upNewOrder);
-      await newDbOrderHistory(upNewOrder); // Esperar a que se complete la función
-      //router.push("/orderAcepted");
+      await newDbOrderHistory(upNewOrder);
+      router.push("/orderAcepted");
     } catch (error) {
       console.error("Error al crear nueva orden:", error);
     }

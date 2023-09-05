@@ -2,30 +2,42 @@
 import React, { useEffect, useState } from "react";
 import "./search.scss";
 import { getDBPlates } from "@/services/plateData";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [searchText, setSearchText] = useState("");
+  const [foundSearchText, setFoundSearchText] = useState([]);
+  const router = useRouter();
 
-  const handleInputChange = (event) => {
+  const handleInputChange = async (event) => {
+    const searchParam = event.target.value;
     setSearchText(event.target.value);
+    const totalFilter = await plates();
+    if (searchParam.length > 3) {
+      const filter = totalFilter?.filter((product) =>
+        product.Name.toLowerCase().includes(searchParam.toLowerCase())
+      );
+      setFoundSearchText(filter);
+    }
   };
 
   const handletrash = () => {
     setSearchText("");
+    setFoundSearchText([]);
+  };
+
+  const handleId = (id) => {
+    router.push(`/restaurant/preorder/${id}`);
   };
 
   const plates = async () => {
     try {
       const response = await getDBPlates();
-      console.log(response);
+      return response;
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    plates();
-  }, []);
 
   return (
     <div className="input-container">
@@ -49,17 +61,19 @@ const Page = () => {
         )}
       </div>
       <div className="orderSecundary">
-        <div className="orderSecundary__searxh">
-          <img
-            className="imgsearch"
-            src="https://recetinas.com/wp-content/uploads/2017/10/salchipapas.jpg"
-            alt=""
-          />
-          <div>
-            <span className="span1">Salchipapas con todo</span>
-            <span className="span2">$ 25.000</span>
+        {foundSearchText?.map((item, index) => (
+          <div
+            className="orderSecundary__searxh"
+            key={index}
+            onClick={() => handleId(item.id)}
+          >
+            <img className="imgsearch" src={item.PlateImage} alt="" />
+            <div>
+              <span className="span1">{item.Name}</span>
+              <span className="span2">$ {item.Price}</span>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
