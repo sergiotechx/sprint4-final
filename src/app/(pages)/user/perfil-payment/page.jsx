@@ -32,9 +32,9 @@ const Page = () => {
       dispatch(updatePayment(formState));
     };
   return (
-    <div>
+    <div className="metodos">
+      <i onClick={handleClick} className="bi bi-chevron-left Back"></i>
        <section className="inputs pagos ">
-       <i onClick={handleClick} className="bi bi-chevron-left Back"></i>
           <div className="inputEditP">
             <label>n° CreditCard</label>
             <input

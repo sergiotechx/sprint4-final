@@ -1,25 +1,21 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+
 .LoginP{
   display: flex;
   flex-direction: column;
   text-align: center;
   gap: 50px;
-  height: 87vh;
+  height: 90vh;
   width: 380px
 }
 
 .form {
   margin-top: 5rem;
   background-color: #fffcfc;
-  height: 50vh;
+  
   display: flex;
   flex-direction: column;
-  text-align: center;
-  align-items: center;
+  // text-align: center;
+  // align-items: center;
   gap: 25px;
 }
 .Log {
@@ -35,19 +31,25 @@
   flex-direction: column;
   align-items: baseline;
   padding-left: 15px;
+  label{
+    display: flex;
+    text-align: center;
+  }
   input {
-    width: 360px;
+    width: 340px;
     height: 30px;
     border-bottom: 1px solid black;
     
   }
   .form-control{
     border: 1px solid #080606;
-      padding: 1rem;
+    padding: 1rem;
+    width: 300px;
   }
 }
 .loginButon {
   display: flex;
+  justify-content: center;
   gap: 15px;
 }
 .login {
@@ -96,7 +98,13 @@
   text-decoration: underline;
 }
 h3{
-  margin-top: 10rem;
+  width: 300px;
+  margin-top: 2rem;
+  margin-left: 18px;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+}
+.footerPrimary{
+  margin-top: 0;
 }

@@ -1,6 +1,7 @@
 import { collection, doc, setDoc } from "firebase/firestore";
 import {
   loginWithEmailPassword,
+  logoutFirebase,
   registerUserWithEmailPassword,
   signInWithgoogle,
 } from "../../firebase/providers";
@@ -210,3 +211,11 @@ export const startUpdatingUser = (updatedUserData) => {
       }
     };
     };
+
+    export const starLogout = () => {
+      return async( dispatch) => {
+        await logoutFirebase()
+
+        dispatch( logout() );
+      }
+    }

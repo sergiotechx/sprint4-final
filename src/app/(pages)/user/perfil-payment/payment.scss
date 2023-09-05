@@ -1,5 +1,11 @@
+.metodos{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+   
+}
 .pagos{
-    height: 87vh;
+    height: 85vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -30,4 +36,12 @@
     background: var(--Main-color, #ffe031);
     height: 40px;
     width: 200px;
+}
+.back{
+    display: flex;
+    position: absolute;
+    top: 25px;
+    left: 15px;
+    margin-top: 10px;
+
 }
