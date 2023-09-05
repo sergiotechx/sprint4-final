@@ -72,26 +72,7 @@ const Page = () => {
         <button className="buttonPE" onClick={handleSaveChanges}>Guardar Cambios</button>
       </section>
     </div>
-<<<<<<< HEAD
   );
 };
-=======
-    <section className='inputs'>
-      <button className='buttonEdit'>{user.displayName}</button>
-      <button className='buttonEdit'>{user.email}</button>
-      <div className='inputEdit'>
-        <input type="number" value={user?.celphone} />
-        <i className="bi bi-pencil"></i>
-      </div>
-      
-      <div className='inputEdit'>
-        <input type="text" value={user?.date} />
-        <i className="bi bi-pencil "></i>
-      </div>
-    </section>
-  </div>
-  )
-}
->>>>>>> MaferVega
 
 export default Page;
