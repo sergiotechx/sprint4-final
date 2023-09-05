@@ -1,5 +1,5 @@
 import { FirebaseDB } from "@/firebase/config";
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, where,setDoc  } from "firebase/firestore";
 
 export const getDBRestaurants = async () => {
     try {
@@ -62,6 +62,29 @@ export const getDBRestaurantTypes = async () => {
         return tempArr
     }
     catch (error) {
+        throw error
+    }
+}
+export const updateDbRestaurant = async (restaurantInfo )=>{
+    try{
+        const docRef = doc(FirebaseDB, "Restaurants", restaurantInfo.id);
+        console.log('aca vamos!', docRef)
+        const newData ={
+                        CloseTime:restaurantInfo.CloseTime,
+                        Description:restaurantInfo.Description,
+                        FoodImg:restaurantInfo.FoodImg,
+                        LogoImg:restaurantInfo.LogoImg,
+                        Name:restaurantInfo.Name,
+                        Rating:restaurantInfo.Rating,
+                        RestaurantTypeId:restaurantInfo.RestaurantTypeId,
+                        StartTime: restaurantInfo.StartTime,
+                        WaitingTime: restaurantInfo.WaitingTime,
+        }
+       const newDocument = await setDoc(docRef, newData)
+       console.log('new data', newData)
+       console.log('??funciona??', newDocument)
+    }
+    catch(error){
         throw error
     }
 }
