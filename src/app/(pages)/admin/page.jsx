@@ -218,6 +218,7 @@ function Page() {
 
   return (
     <div className="admin-page">
+      <div className="main">
       <nav className="navbar">
         <h1>Panel de Administración</h1>
       </nav>
@@ -435,6 +436,7 @@ function Page() {
           </div>
         )}
       </main>
+      </div>
       <div className="lists">
         <div className="restaurants-list">
           <h3>Lista de Restaurantes</h3>

@@ -1,9 +1,17 @@
 /* style.scss */
 .admin-page {
+    margin: .5rem;
     font-family: Arial, sans-serif;
     padding: 20px;
     border: .2rem solid #ccc;
     border-radius: 1rem;
+  }
+  .main{
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    border: .1rem solid #ccc;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
   }
   
   .navbar {
@@ -30,7 +38,8 @@
   }
   
   button:hover {
-    background-color: #0056b3;
+    background-color: #ffe494;
+    color: #333;
   }
   
   .add-dish-form {
@@ -48,12 +57,16 @@
     font-weight: bold;
   }
   #logoImg{
-    width:9em;
-    height:9em;
+    width:15em;
+    height:15em;
+    border-radius: 2rem;
+    margin: 1rem;
   }
   #foodImg{
-    width:9em;
-    height:9em;
+    border-radius: 2rem;
+    margin: 1rem;
+    width:15em;
+    height:15em;
   }
   
   input,
@@ -70,7 +83,10 @@
   }
   
   button[type="submit"]:hover {
-    background-color: #218838;
+    background-color: #528b5f;
+  }
+  main{
+    margin-bottom: 1rem;
   }
   .lists {
     border: .1rem solid #ccc;
@@ -135,7 +151,7 @@ tr:hover .icon-container {
   transition: display 0.3s ease;
 }
 
-  @media(max-width:620px){
+  @media(max-width:655px){
     .neno {
       display: none;
     }
@@ -143,5 +159,17 @@ tr:hover .icon-container {
   @media(max-width:480px){
     .none{
       display: none;
+    }
+    #logoImg{
+      margin: 1rem;
+      width:10em;
+      height:10em;
+      border-radius: 1rem;
+    }
+    #foodImg{
+      border-radius: 1rem;
+      margin: 1rem;
+      width:10em;
+      height:10em;
     }
   }
