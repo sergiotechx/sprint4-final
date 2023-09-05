@@ -6,13 +6,16 @@ import { fillRestaurantTypes } from "../../../store/restaurantTypes/thunks";
 import { listRestaurants } from "@/store/restaurants/thunks";
 import "./style.scss";
 import Swal from "sweetalert2";
-import { getDBRestaurantPlates,updateDbRestaurant } from "@/services/restaurantsData";
+import { getDBRestaurantPlates, updateDbRestaurant, newDbRestaurant } from "@/services/restaurantsData";
+import fileUpload from "@/services/fileUpload";
+import { Rating } from '@mantine/core';
 
 function Page() {
   const [showForm, setShowForm] = useState(false); // Mostrar/Esconder form de platos
   const [showRestaurantForm, setShowRestaurantForm] = useState(false); // Mostrar/esconder form restaurantes
   const [dishName, setDishName] = useState("");
   const [dishImage, setDishImage] = useState("");
+  const [logoImage, setLogoImage] = useState('');
   const [dishIngredients, setDishIngredients] = useState("");
   const [dishesList, setDishesList] = useState([]); // Estado para la lista de platillos
   const [dishprice, setDishPrice] = useState("");
@@ -20,6 +23,10 @@ function Page() {
   const [restaurantForm, setRestaurantFormName] = useState({});
   const [platilloForm, setPlatilloForm] = useState({});
   const [operation, setOperation] = useState("");
+  const [refresh, setRefresh] = useState(false);
+  const [restaurantType, setRestaurantType] = useState({});
+  const [rating, setRating] = useState(0);
+
 
   const dispatch = useDispatch();
   const { restaurantTypes } = useSelector((store) => store.restaurantTypes);
@@ -29,6 +36,11 @@ function Page() {
     dispatch(fillRestaurantTypes());
     dispatch(listRestaurants());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fillRestaurantTypes());
+    dispatch(listRestaurants());
+  }, [refresh]);
 
   /////////////////////////////////////////////
   //funcion para traer los platos al seleccionar un restaurante
@@ -40,6 +52,11 @@ function Page() {
   const toggleForm = () => {
     setShowForm(!showForm);
   };
+  const toggleForm2 = () => {
+    setOperation("New");
+    setShowForm(!showForm);
+  };
+
   const toggleRestaurantForm = () => {
     setShowRestaurantForm(!showRestaurantForm);
   };
@@ -80,12 +97,12 @@ function Page() {
       cancelButtonText: "No",
     });
     if (userResponse.isConfirmed) {
-      console.log("usted que!! ", dishesList);
-      console.log("la llave", platetId);
+
       let PlatilloInfo = dishesList.find((dish) => dish.id == platetId);
 
       if (Object.keys(PlatilloInfo).length > 0) {
         setPlatilloForm(PlatilloInfo);
+        setOperation("Edit");
         toggleForm();
       }
     }
@@ -108,18 +125,66 @@ function Page() {
       }
     });
   };
-  const handleRestaurantFormSubmit = async(event) => {
-    event.preventDefault();
-    if(operation == 'Edit'){
-       const cosa = await updateDbRestaurant(restaurantForm)
+  const handleRestaurantFormSubmit = async (event) => {
+    try {
+      event.preventDefault();
+
+
+      if (operation == 'Edit') {
+        if (logoImage != '') {
+          const logoImageURL = await fileUpload(logoImage);
+          restaurantForm.LogoImg = logoImageURL;
+        }
+        if (dishImage != '') {
+          const dishImageURL = await fileUpload(dishImage);
+          restaurantForm.FoodImg = dishImageURL;
+        }
+        const updateRestaurant = await updateDbRestaurant(restaurantForm)
+        if (updateRestaurant == undefined) {
+          const response = await Swal.fire({
+            title: "Operacion exitosa",
+            text: "Cambios guardados exitosamente",
+            icon: "success",
+          });
+          setShowRestaurantForm(!showRestaurantForm);
+          setRefresh(!refresh)
+        }
+      }
+      else {
+
+        if (logoImage != '') {
+          const logoImageURL = await fileUpload(logoImage);
+          restaurantForm.LogoImg = logoImageURL;
+        }
+        if (dishImage != '') {
+          const dishImageURL = await fileUpload(dishImage);
+          restaurantForm.FoodImg = dishImageURL;
+        }
+
+        let result = await newDbRestaurant(restaurantForm)
+
+        if (Object.keys(result).length > 0) {
+          const response = await Swal.fire({
+            title: "Operacion exitosa",
+            text: "Cambios guardados exitosamente",
+            icon: "success",
+          });
+          setShowRestaurantForm(!showRestaurantForm);
+          setRefresh(!refresh)
+        }
+      }
+    }
+    catch (error) {
+      Swal.fire({
+        title: "Error de sitema",
+        text: error.message,
+        icon: "error",
+      });
+
     }
 
-    // Mostrar SweetAlert de "Aguarda Platillo"
-    Swal.fire({
-      title: "guardado",
-      text: "Procesando el agregado del platillo...",
-      icon: "info",
-    });
+
+
   };
 
   const handleDishFormSubmit = (event) => {
@@ -128,6 +193,28 @@ function Page() {
     const newDish = {};
     setDishesList([...dishesList, newDish]);
   };
+
+  const handleSelectChange = (event) => {
+    let temp = JSON.parse(JSON.stringify(restaurantForm))
+    if (operation == 'Edit') {
+      temp.RestaurantTypeId._key.path.segments[6] = event.target.value;
+      setRestaurantType(event.target.value)
+      setRestaurantFormName(temp);
+    }
+    else {
+      let temp = JSON.parse(JSON.stringify(restaurantForm))
+      temp = ({ ...temp, RestaurantTypeId: event.target.value });
+      setRestaurantType(event.target.value)
+      setRestaurantFormName(temp);
+    }
+
+  };
+  const handleSetRating=(value)=>{
+   setRating(value)
+   let temp = JSON.parse(JSON.stringify(restaurantForm))
+   temp = ({ ...temp, Rating: Number(value) });
+   setRestaurantFormName(temp);
+  }
 
   return (
     <div className="admin-page">
@@ -144,39 +231,33 @@ function Page() {
         </button>
         {showRestaurantForm && (
           <div className="add-dish-form">
-            {console.log("la operacion!!!!", { operation })}
-            <h3>Agregar Nuevo Restaurante</h3>
+            {operation == 'New' ?
+              <h3>Agregar Nuevo Restaurante</h3> :
+              <h3>Editar Restaurante</h3>
+            }
+
             <form onSubmit={handleRestaurantFormSubmit}>
+
               <label>
-                {console.log("restaurantForm", restaurantForm)}
+
                 Tipo de restaurante
-                <select>
+
+                <select value={restaurantType} onChange={handleSelectChange}>
+
                   <option value={null}>Seleccione un tipo</option>
                   {restaurantTypes.length ? (
                     restaurantTypes.map((type) => (
-                      <>
-                        {operation === "New" && (
-                          <option key={type.id} value={type.id}>
-                            {type.Description}
-                          </option>
-                        )}
-                        {operation === "Edit" && (
-                          <option
-                            key={type.id}
-                            value={type.id}
-                            selected={
-                              type.id ===
-                              restaurantForm.RestaurantTypeId._key.path
-                                .segments[6]}
-                          >
-                            {type.Description}
-                          </option>
-                        )}
-                      </>
+                      <option key={type.id} value={type.id}>
+                        {type.Description}
+                      </option>
+
                     ))
-                  ) : (
-                    <option value={null}>...Cargando</option>
-                  )}
+                  )
+                    : (
+                      <option value={null}>...Cargando</option>
+                    )
+                  }
+
                 </select>
               </label>
               <label>
@@ -194,10 +275,15 @@ function Page() {
               </label>
               <label>
                 Logo del restaurante:
+
+                {operation == 'Edit' &&
+                  <img id='logoImg' src={restaurantForm?.LogoImg} />
+                }
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => setDishImage(e.target.files[0])}
+                  onChange={(e) => setLogoImage(e.target.files[0])}
+
                 />
               </label>
               <label>
@@ -215,7 +301,7 @@ function Page() {
               </label>
               <label>
                 Hora de cierre
-                {console.log("que traigo", restaurantForm)}
+
                 <input
                   type="time"
                   value={restaurantForm.CloseTime}
@@ -241,7 +327,14 @@ function Page() {
               </label>
               <label>
                 Imagen de su platillo Estrella:
-                <input type="file" />
+                {operation == 'Edit' &&
+                  <img id='foodImg' src={restaurantForm?.FoodImg} />
+                }
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setDishImage(e.target.files[0])}
+                />
               </label>
               <label>
                 Descripcion del restaurante:
@@ -257,17 +350,21 @@ function Page() {
                   }
                 ></textarea>
               </label>
-              {console.log(operation)}
+              <label>
+                Calificacion
+              <Rating value={rating} onChange={(event)=>handleSetRating(event)} />
+              </label>
+
               {operation === "New" ? (
-              <button type="submit">Agregar Restaurante</button>
-               ) : (
-              <button type="submit">Actualizar Restaurante</button>
+                <button type="submit">Agregar Restaurante</button>
+              ) : (
+                <button type="submit">Actualizar Restaurante</button>
               )}
             </form>
           </div>
         )}
 
-        <button onClick={toggleForm}>Agregar Nuevo Platillo</button>
+        <button onClick={toggleForm2}>Agregar Nuevo Platillo</button>
 
         {showForm && (
           <div className="add-dish-form">
@@ -328,8 +425,12 @@ function Page() {
                   }
                 />
               </label>
+              {operation === "New" ? (
+                <button type="submit">Agregar Platillo</button>
+              ) : (
+                <button type="submit">Actualizar Platillo</button>
+              )}
 
-              <button type="submit">Agregar Platillo</button>
             </form>
           </div>
         )}
@@ -374,6 +475,11 @@ function Page() {
                           className="edit-icon"
                           onClick={() => {
                             setOperation("Edit");
+                            setLogoImage('')
+                            setDishImage('')
+                            setRating(restaurant.Rating)
+                            setRestaurantType(restaurant.RestaurantTypeId._key.path
+                              .segments[6])
                             handleRestaurantEditClick(restaurant.id);
                           }} // Agrega el evento de clic
                         >

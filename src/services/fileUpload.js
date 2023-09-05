@@ -1,7 +1,7 @@
 
 const fileUpload = async (file ) => {
-    const cloudName = "dc4czdj6f";
-    const uploadPreset = "files-sprint-4";
+    const cloudName = "dtjp5b2qr";
+    const uploadPreset = "FoodyPreset";
 
     const urlCloudinary = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
@@ -28,8 +28,7 @@ const fileUpload = async (file ) => {
         const data = await resp.json();
         return data.secure_url;
     } catch (error) {
-        console.error("Error en la solicitud de carga:", error);
-        return null;
+        throw error;
     }
 }
 
