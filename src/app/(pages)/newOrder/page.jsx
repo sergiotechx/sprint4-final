@@ -33,9 +33,8 @@ const NewOrder = () => {
       let order = JSON.parse(JSON.stringify(orders.orders[index]));
       let initialPrice = order.TotalPrice / order.Quantity;
       order.Quantity = order.Quantity - 1;
-      order.TotalPrice = initialPrice *order.Quantity
+      order.TotalPrice = initialPrice * order.Quantity;
       dispatch(updateOrderAct(order));
-      console.log("las ordenes menos", order);
     }
   };
 
@@ -46,9 +45,8 @@ const NewOrder = () => {
     let order = JSON.parse(JSON.stringify(orders.orders[index]));
     let initialPrice = order.TotalPrice / order.Quantity;
     order.Quantity = order.Quantity + 1;
-    order.TotalPrice = initialPrice * order.Quantity
+    order.TotalPrice = initialPrice * order.Quantity;
     dispatch(updateOrderAct(order));
-    console.log("las ordenes mas", order);
   };
 
   const onSubmit = (data) => {
@@ -68,7 +66,7 @@ const NewOrder = () => {
   };
 
   const buttonOrder = () => {
-    console.log("button order");
+    router.push("/orderAcepted");
   };
 
   const calculateTotalProducts = () => {
@@ -82,7 +80,6 @@ const NewOrder = () => {
   useEffect(() => {
     const total = calculateTotalProducts();
     setTotalProducts(total);
-    //setNote(orders.note);
     setLabelNote(orders.note);
   }, [quantities]);
 
@@ -117,34 +114,31 @@ const NewOrder = () => {
         </div>
       </section>
       {ordersIndex.map((indexDetail, index) => (
-        <>
-          {console.log(indexDetail)}
-          <section className="newOrder__section4" key={index}>
-            <div>
-              <img src={indexDetail.PlateImage} />
+        <section className="newOrder__section4" key={index}>
+          <div>
+            <img src={indexDetail.PlateImage} />
 
-              <div className="btn-group">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => decreaseCount(index)}
-                >
-                  -
-                </button>
-                <label className="">{quantities[index]}</label>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => increaseCount(index)}
-                >
-                  +
-                </button>
-              </div>
-              <span>{indexDetail?.Name}</span>
+            <div className="btn-group">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => decreaseCount(index)}
+              >
+                -
+              </button>
+              <label className="">{quantities[index]}</label>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => increaseCount(index)}
+              >
+                +
+              </button>
             </div>
-            <span>$ {indexDetail?.Price * quantities[index]}</span>
-          </section>
-        </>
+            <span>{indexDetail?.Name}</span>
+          </div>
+          <span>$ {indexDetail?.TotalPrice * quantities[index]}</span>
+        </section>
       ))}
       <p>{labelNote}</p>
       <form className="newOrder__section5" onSubmit={handleSubmit(onSubmit)}>

@@ -18,7 +18,6 @@ export const orderSlice = createSlice({
     },
 
     updateOrder: (state, action) => {
-      console.log(action.payload);
       state.orders = state.orders.map((order) =>
         order.PlateId === action.payload.PlateId
           ? {

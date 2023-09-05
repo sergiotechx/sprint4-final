@@ -1,0 +1,33 @@
+.orderAcepted {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 98vh;
+  align-items: center;
+  &__section1 {
+    position: relative;
+    width: 100%;
+    span {
+      position: absolute;
+      right: 43%;
+      color: #414141;
+      text-align: center;
+      font-family: Roboto;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+  }
+  &__img {
+    padding: 80px;
+    max-width: 350px;
+  }
+  .bton_order {
+    width: 100%;
+    margin-top: auto;
+    border-radius: 10px;
+    background: #ffe031;
+  }
+}
