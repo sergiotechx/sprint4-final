@@ -212,10 +212,12 @@ const Pages = () => {
           direction="row"
           justifyContent="end"
         >
+          <div>
           <Typography sx={{ mr: 1 }}>¿Ya tienes cuenta?</Typography>
           <span className="redireccion__link" onClick={handleClik}>
             Ingresar
           </span>
+          </div>
         </Grid>
       </Grid>
     </form>
