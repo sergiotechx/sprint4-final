@@ -1,5 +1,5 @@
 import { FirebaseDB } from "@/firebase/config";
-import { collection, doc, getDoc, getDocs, query, where,setDoc  } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, where,setDoc,addDoc  } from "firebase/firestore";
 
 export const getDBRestaurants = async () => {
     try {
@@ -68,8 +68,7 @@ export const getDBRestaurantTypes = async () => {
 export const updateDbRestaurant = async (restaurantInfo )=>{
     try{
         const docRef = doc(FirebaseDB, "Restaurants", restaurantInfo.id);
-        console.log('aca vamos!', docRef)
-        const newData ={
+           const newData ={
                         CloseTime:restaurantInfo.CloseTime,
                         Description:restaurantInfo.Description,
                         FoodImg:restaurantInfo.FoodImg,
@@ -81,10 +80,40 @@ export const updateDbRestaurant = async (restaurantInfo )=>{
                         WaitingTime: restaurantInfo.WaitingTime,
         }
        const newDocument = await setDoc(docRef, newData)
-       console.log('new data', newData)
-       console.log('??funciona??', newDocument)
+      
     }
     catch(error){
+        throw error
+    }
+}
+export const newDbRestaurant = async (restaurantInfo )=>{
+    try{
+        
+        const docRef = doc(FirebaseDB, "RestaurantType", restaurantInfo.RestaurantTypeId);
+        const dbRef = collection(FirebaseDB, "Restaurants");
+        if(restaurantInfo.FoodImg==undefined){
+            restaurantInfo.FoodImg =''
+        }
+        if(restaurantInfo.LogoImg==undefined){
+            restaurantInfo.LogoImg =''
+        }
+        const newData ={
+                        CloseTime:restaurantInfo.CloseTime,
+                        Description:restaurantInfo.Description,
+                        FoodImg:restaurantInfo.FoodImg,
+                        LogoImg:restaurantInfo.LogoImg,
+                        Name:restaurantInfo.Name,
+                        Rating:restaurantInfo.Rating,
+                        RestaurantTypeId:docRef,
+                        StartTime: restaurantInfo.StartTime,
+                        WaitingTime: restaurantInfo.WaitingTime,
+                        Rating:Number(restaurantInfo.Rating)
+        }
+       const newDocument = await addDoc(dbRef, newData)
+       return newDocument
+    }
+    catch(error){
+        console.log('aca!!!')
         throw error
     }
 }

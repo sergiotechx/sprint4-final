@@ -39,12 +39,21 @@
     border: 1px solid #ccc;
     background-color: #fff;
     border-radius: 1rem;
+   
   }
   
   label {
     display: block;
     margin-bottom: 10px;
     font-weight: bold;
+  }
+  #logoImg{
+    width:9em;
+    height:9em;
+  }
+  #foodImg{
+    width:9em;
+    height:9em;
   }
   
   input,
