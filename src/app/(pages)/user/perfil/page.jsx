@@ -71,8 +71,8 @@ const Page = () => {
             <i className="bi bi-chevron-right r"></i>
             </span>
             <span className='option'>
-            <i className="bi bi-x-square l"></i>
-            <p>Close Session</p>
+            <i onClick={logout} className="bi bi-x-square l"></i>
+            <p onClick={logout}>Close Session</p>
             <i onClick={logout} className="bi bi-chevron-right r"></i>
             </span>
         </div>
