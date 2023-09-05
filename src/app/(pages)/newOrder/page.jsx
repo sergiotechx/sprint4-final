@@ -4,15 +4,18 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { useForm } from "react-hook-form";
 import "./newOrder.scss";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setNoteAct, updateOrderAct } from "@/store/order/orderActions.";
 
 const NewOrder = () => {
   const orders = useSelector((store) => store.order);
   const { register, handleSubmit } = useForm();
   const router = useRouter();
   const [note, setNote] = useState("");
+  const [labelNote, setLabelNote] = useState("");
   const [printnote, setPrintNote] = useState("");
   const ordersIndex = orders.orders;
+  const dispatch = useDispatch();
   const [quantities, setQuantities] = useState(
     ordersIndex.map((indexDetail) => indexDetail.Quantity)
   );
@@ -27,6 +30,11 @@ const NewOrder = () => {
     if (updatedQuantities[index] > 1) {
       updatedQuantities[index] -= 1;
       setQuantities(updatedQuantities);
+      let order = JSON.parse(JSON.stringify(orders.orders[index]));
+      let initialPrice = order.TotalPrice / order.Quantity;
+      order.Quantity = order.Quantity - 1;
+      order.TotalPrice = initialPrice * order.Quantity;
+      dispatch(updateOrderAct(order));
     }
   };
 
@@ -34,12 +42,19 @@ const NewOrder = () => {
     const updatedQuantities = [...quantities];
     updatedQuantities[index] += 1;
     setQuantities(updatedQuantities);
+    let order = JSON.parse(JSON.stringify(orders.orders[index]));
+    let initialPrice = order.TotalPrice / order.Quantity;
+    order.Quantity = order.Quantity + 1;
+    order.TotalPrice = initialPrice * order.Quantity;
+    dispatch(updateOrderAct(order));
   };
 
   const onSubmit = (data) => {
     const note = data.note;
+    setLabelNote(note);
     setPrintNote(note);
     setNote("");
+    dispatch(setNoteAct(note));
   };
 
   const handleNoteChange = (event) => {
@@ -51,7 +66,7 @@ const NewOrder = () => {
   };
 
   const buttonOrder = () => {
-    console.log("button order");
+    router.push("/orderAcepted");
   };
 
   const calculateTotalProducts = () => {
@@ -65,6 +80,7 @@ const NewOrder = () => {
   useEffect(() => {
     const total = calculateTotalProducts();
     setTotalProducts(total);
+    setLabelNote(orders.note);
   }, [quantities]);
 
   return (
@@ -121,10 +137,10 @@ const NewOrder = () => {
             </div>
             <span>{indexDetail?.Name}</span>
           </div>
-          <span>$ {indexDetail?.Price * quantities[index]}</span>
+          <span>$ {indexDetail?.TotalPrice * quantities[index]}</span>
         </section>
       ))}
-      <p>{printnote}</p>
+      <p>{labelNote}</p>
       <form className="newOrder__section5" onSubmit={handleSubmit(onSubmit)}>
         <label>Note</label>
         <input

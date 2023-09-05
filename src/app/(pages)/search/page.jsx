@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./search.scss";
+import { getDBPlates } from "@/services/plateData";
 
 const Page = () => {
   const [searchText, setSearchText] = useState("");
@@ -12,6 +13,19 @@ const Page = () => {
   const handletrash = () => {
     setSearchText("");
   };
+
+  const plates = async () => {
+    try {
+      const response = await getDBPlates();
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    plates();
+  }, []);
 
   return (
     <div className="input-container">

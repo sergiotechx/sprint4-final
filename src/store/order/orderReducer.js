@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   orders: [],
+  note: null,
 };
 
 export const orderSlice = createSlice({
@@ -17,7 +18,6 @@ export const orderSlice = createSlice({
     },
 
     updateOrder: (state, action) => {
-      console.log(action.payload);
       state.orders = state.orders.map((order) =>
         order.PlateId === action.payload.PlateId
           ? {
@@ -30,8 +30,11 @@ export const orderSlice = createSlice({
       console.log(action.payload);
       state.orders = [];
     },
+    setNote: (state, action) => {
+      state.note = action.payload;
+    },
   },
 });
 
-export const { setOrders, addOrder, updateOrder, deleteOrder } =
+export const { setOrders, addOrder, updateOrder, deleteOrder, setNote } =
   orderSlice.actions;

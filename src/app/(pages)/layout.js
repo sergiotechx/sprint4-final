@@ -7,7 +7,6 @@ import Footer from "../../components/footer/footer";
 import "./layout.scss";
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
-import { OrderContextProvider } from "@/store/store";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -17,14 +16,21 @@ const roboto = Roboto({
 export default function RootLayout({ children }) {
   const currentPath = usePathname();
 
+  const hiddenFooter = !(
+    currentPath === "/newOrder" ||
+    currentPath === "/currentOrder" ||
+    currentPath === "/orderAcepted"
+  );
+
   return (
     <html lang="es">
       <head>
         <title>Foody 🥗</title>
       </head>
       <body className={roboto.className}>
-        <ReduxProvider>{children}  
-        {currentPath !== "/newOrder" ? <Footer /> : ""}
+        <ReduxProvider>
+          {children}
+          {hiddenFooter && <Footer />}
         </ReduxProvider>
       </body>
     </html>
