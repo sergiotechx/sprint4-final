@@ -27,9 +27,7 @@ const Page = () => {
     const logout = () => {
         dispatch(starLogout());
         Swal.fire("Oops", "debes iniciar sesion para permanecer en perfil", "error");
-        if (isLogout) {
-            router.push("/home");
-        }
+        router.push("/home");
     }
 
     return (
