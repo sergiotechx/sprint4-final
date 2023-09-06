@@ -547,6 +547,7 @@ function Page() {
                   <img id='platoimg' src={platilloForm?.PlateImage}/>
                 }
                 <input type="file"
+                
                   accept="image/*"
                   onChange={(e) => setPlateImage(e.target.files[0])} />
               </label>
