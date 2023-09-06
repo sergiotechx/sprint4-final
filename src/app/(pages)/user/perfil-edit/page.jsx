@@ -10,7 +10,7 @@ import { updateUser } from "../../../../store/auth/authSlice";
 import { CldUploadButton } from "next-cloudinary";
 
 const Page = () => {
-  const [info, updateInfo] = useState();
+  const [info, updateInfo] = useState("");
   const [error, updateError] = useState();
   const router = useRouter();
   const user = useSelector((state) => state.auth);
@@ -32,20 +32,26 @@ const Page = () => {
     }
 
     updateInfo(result?.info.secure_url);
-
-    // if (info) {
-    //   console.log(result);
-    // }
   }
 
   const handleSaveChanges = () => {
-    const editProfile = {
-      ...formState,
-      photoURL: info,
-    };
+    if (info) {
+      const editProfile = {
+        ...formState,
+        photoURL: info,
+      };
 
-    dispatch(startUpdatingUser(editProfile));
-    dispatch(updateUser(editProfile));
+      dispatch(startUpdatingUser(editProfile));
+      dispatch(updateUser(editProfile));
+      updateInfo("");
+    } else {
+      const editProfile2 = {
+        ...formState,
+        photoURL: user.photoURL,
+      };
+      dispatch(startUpdatingUser(editProfile2));
+      dispatch(updateUser(editProfile2));
+    }
   };
 
   // useEffect(() => {
