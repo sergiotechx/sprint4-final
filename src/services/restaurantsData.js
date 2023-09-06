@@ -66,6 +66,17 @@ export const getDBRestaurantTypes = async () => {
     }
 }
 export const updateDbRestaurant = async (restaurantInfo )=>{
+    console.log('ellllllllll info', restaurantInfo)
+    let docRefRestaurantType = ''
+    if (typeof (restaurantInfo.RestaurantTypeId) == 'string') {
+        docRefRestaurantType = doc(FirebaseDB, "RestaurantTypeId", restaurantInfo.RestaurantTypeId);
+      }
+      else {
+        let index = restaurantInfo.RestaurantTypeId._key.path.segments.length - 1
+        restaurantInfo.RestaurantTypeId = restaurantInfo.RestaurantTypeId._key.path.segments[index]
+        docRefRestaurantType = doc(FirebaseDB, "RestaurantTypeId", restaurantInfo.RestaurantTypeId);
+      }
+    //const docRef = doc(FirebaseDB, "RestaurantType", restaurantInfo.RestaurantTypeId);
     try{
         const docRef = doc(FirebaseDB, "Restaurants", restaurantInfo.id);
            const newData ={
@@ -75,11 +86,11 @@ export const updateDbRestaurant = async (restaurantInfo )=>{
                         LogoImg:restaurantInfo.LogoImg,
                         Name:restaurantInfo.Name,
                         Rating:restaurantInfo.Rating,
-                        RestaurantTypeId:restaurantInfo.RestaurantTypeId,
+                        RestaurantTypeId:docRefRestaurantType,
                         StartTime: restaurantInfo.StartTime,
                         WaitingTime: restaurantInfo.WaitingTime,
         }
-       const newDocument = await setDoc(docRef, newData)
+      // const newDocument = await setDoc(docRef, newData)
       
     }
     catch(error){
@@ -113,7 +124,7 @@ export const newDbRestaurant = async (restaurantInfo )=>{
        return newDocument
     }
     catch(error){
-        console.log('aca!!!')
+    
         throw error
     }
 }

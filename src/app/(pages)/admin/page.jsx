@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import { getDBRestaurantPlates, updateDbRestaurant, newDbRestaurant } from "@/services/restaurantsData";
 import fileUpload from "@/services/fileUpload";
 import { Rating } from '@mantine/core';
+import { getDBPlateTypes, updateDbPlate,newDbPlate } from "@/services/plateData";
 
 function Page() {
   const [showForm, setShowForm] = useState(false); // Mostrar/Esconder form de platos
@@ -16,6 +17,7 @@ function Page() {
   const [dishName, setDishName] = useState("");
   const [dishImage, setDishImage] = useState("");
   const [logoImage, setLogoImage] = useState('');
+  const [plateImage, setPlateImage] = useState('');
   const [dishIngredients, setDishIngredients] = useState("");
   const [dishesList, setDishesList] = useState([]); // Estado para la lista de platillos
   const [dishprice, setDishPrice] = useState("");
@@ -26,6 +28,10 @@ function Page() {
   const [refresh, setRefresh] = useState(false);
   const [restaurantType, setRestaurantType] = useState({});
   const [rating, setRating] = useState(0);
+  const [restaurant, setRestaurant] = useState({});
+  const [platetypes, setPlateTypes] = useState([]);
+  const [platetype, setPlateType] = useState({});
+
 
 
   const dispatch = useDispatch();
@@ -35,6 +41,7 @@ function Page() {
   useEffect(() => {
     dispatch(fillRestaurantTypes());
     dispatch(listRestaurants());
+    getDBPlateTypes().then((result) => setPlateTypes(result))
   }, [dispatch]);
 
   useEffect(() => {
@@ -42,11 +49,13 @@ function Page() {
     dispatch(listRestaurants());
   }, [refresh]);
 
+
   /////////////////////////////////////////////
   //funcion para traer los platos al seleccionar un restaurante
   const getRestaurantPLates = async (restaurantID) => {
     const reponse = await getDBRestaurantPlates(restaurantID);
     setDishesList(reponse);
+    setRestaurant(restaurantID)
   };
 
   const toggleForm = () => {
@@ -102,6 +111,7 @@ function Page() {
 
       if (Object.keys(PlatilloInfo).length > 0) {
         setPlatilloForm(PlatilloInfo);
+        setPlateType(PlatilloInfo.PlateTypeId._key.path.segments[6])
         setOperation("Edit");
         toggleForm();
       }
@@ -129,23 +139,24 @@ function Page() {
     try {
       event.preventDefault();
 
-
+      let temp = JSON.parse(JSON.stringify(restaurantForm))
       if (operation == 'Edit') {
         if (logoImage != '') {
           const logoImageURL = await fileUpload(logoImage);
-          restaurantForm.LogoImg = logoImageURL;
+          temp.LogoImg = logoImageURL;
         }
         if (dishImage != '') {
           const dishImageURL = await fileUpload(dishImage);
-          restaurantForm.FoodImg = dishImageURL;
+          temp.FoodImg = dishImageURL;
         }
-        const updateRestaurant = await updateDbRestaurant(restaurantForm)
+        const updateRestaurant = await updateDbRestaurant(temp)
         if (updateRestaurant == undefined) {
           const response = await Swal.fire({
             title: "Operacion exitosa",
             text: "Cambios guardados exitosamente",
             icon: "success",
           });
+          setRestaurantFormName({})
           setShowRestaurantForm(!showRestaurantForm);
           setRefresh(!refresh)
         }
@@ -154,14 +165,14 @@ function Page() {
 
         if (logoImage != '') {
           const logoImageURL = await fileUpload(logoImage);
-          restaurantForm.LogoImg = logoImageURL;
+          temp.LogoImg = logoImageURL;
         }
         if (dishImage != '') {
           const dishImageURL = await fileUpload(dishImage);
-          restaurantForm.FoodImg = dishImageURL;
+          temp.FoodImg = dishImageURL;
         }
 
-        let result = await newDbRestaurant(restaurantForm)
+        let result = await newDbRestaurant(temp)
 
         if (Object.keys(result).length > 0) {
           const response = await Swal.fire({
@@ -169,6 +180,7 @@ function Page() {
             text: "Cambios guardados exitosamente",
             icon: "success",
           });
+          setRestaurantFormName({})
           setShowRestaurantForm(!showRestaurantForm);
           setRefresh(!refresh)
         }
@@ -187,17 +199,68 @@ function Page() {
 
   };
 
-  const handleDishFormSubmit = (event) => {
+  const handleDishFormSubmit = async (event) => {
     event.preventDefault();
 
-    const newDish = {};
-    setDishesList([...dishesList, newDish]);
+   
+    try {
+      event.preventDefault();
+
+      let temp = JSON.parse(JSON.stringify(platilloForm))
+      if (operation == 'Edit') {
+        if (plateImage != '') {
+          const plateImageURL = await fileUpload(plateImage);
+          temp.PlateImage = plateImageURL
+        }
+        const updatePlate = await updateDbPlate(temp)
+        if ( updatePlate == undefined) {
+          const response = await Swal.fire({
+            title: "Operacion exitosa",
+            text: "Cambios guardados exitosamente",
+            icon: "success",
+          });
+          setPlatilloForm({})
+          setShowForm(!showForm);
+          setRefresh(!refresh)
+        }
+      }
+      else {
+
+        if (plateImage != '') {
+          const plateImageURL = await fileUpload(plateImage);
+          temp.PlateImage = plateImageURL
+        }
+
+        const newPlate = await newDbPlate(temp)
+
+        if (Object.keys(newPlate).length > 0) {
+          const response = await Swal.fire({
+            title: "Operacion exitosa",
+            text: "Cambios guardados exitosamente",
+            icon: "success",
+          });
+          setPlatilloForm({})
+          setShowForm(!showForm);
+          setRefresh(!refresh)
+        }
+      }
+    }
+    catch (error) {
+      Swal.fire({
+        title: "Error de sitema",
+        text: error.message,
+        icon: "error",
+      });
+
+    }
+
+
   };
 
   const handleSelectChange = (event) => {
     let temp = JSON.parse(JSON.stringify(restaurantForm))
     if (operation == 'Edit') {
-      temp.RestaurantTypeId._key.path.segments[6] = event.target.value;
+      temp.RestaurantTypeId = event.target.value;
       setRestaurantType(event.target.value)
       setRestaurantFormName(temp);
     }
@@ -209,11 +272,51 @@ function Page() {
     }
 
   };
-  const handleSetRating=(value)=>{
-   setRating(value)
-   let temp = JSON.parse(JSON.stringify(restaurantForm))
-   temp = ({ ...temp, Rating: Number(value) });
-   setRestaurantFormName(temp);
+  const handleSetRating = (value) => {
+    setRating(value)
+    let temp = JSON.parse(JSON.stringify(restaurantForm))
+    temp = ({ ...temp, Rating: Number(value) });
+    setRestaurantFormName(temp);
+  }
+
+  const handleSelectChangeRestaurant = (event) => {
+    event.preventDefault();
+    let temp = JSON.parse(JSON.stringify(platilloForm))
+    let restaurantId = event.target.value
+    let selectedRestaurant = restaurants.find(restaurant_ => restaurant_.id == restaurantId)
+    
+    if (operation == 'Edit') {
+      temp.RestaurantId = event.target.value;
+      temp.RestaurantName = selectedRestaurant.Name
+      setRestaurant(event.target.value)
+      setPlatilloForm(temp);
+    }
+    else {
+
+      temp.RestaurantId = event.target.value;
+      temp.RestaurantName = selectedRestaurant.Name
+      setRestaurant(event.target.value)
+      setPlatilloForm(temp);
+    
+    }
+  }
+
+  const handleSelectChangePlateType = (event) => {
+    event.preventDefault();
+    let temp = JSON.parse(JSON.stringify(platilloForm))
+    let plateTypeId = event.target.value
+    let selectePlateType = platetypes.find(plateType_ => plateType_.id == plateTypeId)
+     
+     if (operation == 'Edit') {
+       temp.PlateTypeId = event.target.value;
+       setPlateType(event.target.value)
+       setPlatilloForm(temp);
+     }
+     else {
+      temp.PlateTypeId = event.target.value;
+      setPlateType(event.target.value)
+      setPlatilloForm(temp);
+     }
   }
 
   return (
@@ -352,7 +455,7 @@ function Page() {
               </label>
               <label>
                 Calificacion
-              <Rating value={rating} onChange={(event)=>handleSetRating(event)} />
+                <Rating value={rating} onChange={(event) => handleSetRating(event)} />
               </label>
 
               {operation === "New" ? (
@@ -368,21 +471,49 @@ function Page() {
 
         {showForm && (
           <div className="add-dish-form">
-            <h3>Agregar Nuevo Platillo</h3>
+            {operation == 'New' ?
+              <h3>Agregar Nuevo Platillo</h3> :
+              <h3>Modificar  Platillo</h3>
+            }
+
             <form onSubmit={handleDishFormSubmit}>
               <label>
-                Nombre del Restaurante:
-                <input
-                  value={platilloForm.RestaurantName}
-                  onChange={(event) =>
-                    setPlatilloForm({
-                      ...platilloForm,
-                      RestaurantName: event.target.value,
-                    })
+
+                Restaurante:
+                {console.log(platetypes)}
+                <select value={restaurant} onChange={handleSelectChangeRestaurant}>
+
+                  <option value={null}>Seleccione un restaurante</option>
+                  {restaurants.length ? (
+                    restaurants.map((restaurant) => (
+                      <option key={restaurant.id} value={restaurant.id}>
+                        {restaurant.Name}
+                      </option>
+
+                    ))
+                  )
+                    : (
+                      <option value={null}>...Cargando</option>
+                    )
                   }
-                  type="text"
-                />
+
+                </select>
               </label>
+              <label>Tipo de plato:
+                <select value={platetype} onChange={handleSelectChangePlateType}>
+                <option key={null} value={null}> Elige un tipo de plato </option>
+                  {
+                    
+                    platetypes?.map((platetype) => (
+                      <option key={platetype.id} value={platetype.id}>
+                        {platetype.Description}
+                      </option>
+
+                    ))
+                  }
+                </select>
+              </label>
+
               <label>
                 Plato a Arreglar:
                 <input
@@ -397,8 +528,27 @@ function Page() {
                 />
               </label>
               <label>
+                Tiempo de de entrega:
+                <input
+                  type="text"
+                  value={platilloForm.DeliveryTime}
+                  onChange={(event) =>
+                    setPlatilloForm({
+                      ...platilloForm,
+                      DeliveryTime: event.target.value,
+                    })
+                  }
+                />
+              </label>
+              <label>
                 Foto del Platillo:
-                <input type="file" />
+                
+                {operation == 'Edit' &&
+                  <img id='platoimg' src={platilloForm?.PlateImage}/>
+                }
+                <input type="file"
+                  accept="image/*"
+                  onChange={(e) => setPlateImage(e.target.files[0])} />
               </label>
               <label>
                 Precio:
@@ -478,8 +628,7 @@ function Page() {
                             setLogoImage('')
                             setDishImage('')
                             setRating(restaurant.Rating)
-                            setRestaurantType(restaurant.RestaurantTypeId._key.path
-                              .segments[6])
+                            setRestaurantType(restaurant.RestaurantTypeId._key.path.segments[6])
                             handleRestaurantEditClick(restaurant.id);
                           }} // Agrega el evento de clic
                         >
