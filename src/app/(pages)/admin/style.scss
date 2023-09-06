@@ -56,6 +56,13 @@
     margin-bottom: 10px;
     font-weight: bold;
   }
+  #platoimg{
+    width:15em;
+    height:15em;
+    border-radius: 2rem;
+    margin: 1rem;
+
+  }
   #logoImg{
     width:15em;
     height:15em;
@@ -88,8 +95,14 @@
   button[type="submit"]:hover {
     background-color: #528b5f;
   }
-  main{
-    margin-bottom: 1rem;
+  select {
+    width: 100%; // Ancho completo
+    padding: 10px; // Relleno
+    border: 1px solid #ccc; // Borde
+    border-radius: 1rem; // Bordes redondeados
+    color: #333; // Color de texto
+    font-size: 16px; // Tamaño de fuente
+    // Agrega otros estilos según tus preferencias
   }
   .lists {
     border: .1rem solid #ccc;
@@ -163,6 +176,7 @@ tr:hover .icon-container {
     .none{
       display: none;
     }
+    
     #logoImg{
       margin: 1rem;
       width:10em;
