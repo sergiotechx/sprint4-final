@@ -74,7 +74,8 @@ function Page() {
     setOperation("New");
     setShowRestaurantForm(!showRestaurantForm);
   };
-
+ 
+  
   const handleRestaurantEditClick = async (restaurantId) => {
     // Aquí puedes personalizar tu alerta de edición
     let userResponse = await Swal.fire({
@@ -95,6 +96,7 @@ function Page() {
       }
     }
   };
+  
   const handlePlatilloEditClick = async (platetId) => {
     // Aquí puedes personalizar tu alerta de edición
     let userResponse = await Swal.fire({
@@ -256,6 +258,7 @@ function Page() {
 
 
   };
+  
 
   const handleSelectChange = (event) => {
     let temp = JSON.parse(JSON.stringify(restaurantForm))
@@ -319,8 +322,10 @@ function Page() {
      }
   }
 
+
   return (
     <div className="admin-page">
+      <div className="main">
       <nav className="navbar">
         <h1>Panel de Administración</h1>
       </nav>
@@ -459,7 +464,8 @@ function Page() {
               </label>
 
               {operation === "New" ? (
-                <button type="submit">Agregar Restaurante</button>
+                <button 
+                 type="submit">Agregar Restaurante</button>
               ) : (
                 <button type="submit">Actualizar Restaurante</button>
               )}
@@ -586,6 +592,7 @@ function Page() {
           </div>
         )}
       </main>
+      </div>
       <div className="lists">
         <div className="restaurants-list">
           <h3>Lista de Restaurantes</h3>

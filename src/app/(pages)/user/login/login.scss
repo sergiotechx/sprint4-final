@@ -3,6 +3,21 @@
   display: flex;
   flex-direction: column;
   text-align: center;
+<<<<<<< HEAD
+  width: 100%;
+
+}
+
+.form {
+  margin-top: 3rem;
+ background-color: #fffcfc;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  gap: 30px;
+=======
   gap: 50px;
   height: 90vh;
   width: 380px
@@ -17,6 +32,7 @@
   // text-align: center;
   // align-items: center;
   gap: 25px;
+>>>>>>> a71add4d5285837a7dd455bb65a03ef3807d25f8
 }
 .Log {
   color: #fff;
