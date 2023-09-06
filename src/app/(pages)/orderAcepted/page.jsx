@@ -3,7 +3,7 @@ import React from "react";
 import "./orderAcepted.scss";
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const ogRute = () => {
     router.push("/newOrder");
@@ -27,4 +27,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
