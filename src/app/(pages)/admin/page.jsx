@@ -65,7 +65,8 @@ function Page() {
     setOperation("New");
     setShowRestaurantForm(!showRestaurantForm);
   };
-
+ 
+  
   const handleRestaurantEditClick = async (restaurantId) => {
     // Aquí puedes personalizar tu alerta de edición
     let userResponse = await Swal.fire({
@@ -86,6 +87,7 @@ function Page() {
       }
     }
   };
+  
   const handlePlatilloEditClick = async (platetId) => {
     // Aquí puedes personalizar tu alerta de edición
     let userResponse = await Swal.fire({
@@ -189,10 +191,22 @@ function Page() {
 
   const handleDishFormSubmit = (event) => {
     event.preventDefault();
-
+  
+    // Lógica para agregar el platillo aquí
+  
     const newDish = {};
     setDishesList([...dishesList, newDish]);
+  
+    // Mostrar SweetAlert de éxito al agregar el platillo
+    Swal.fire({
+      title: "Platillo Agregado",
+      text: "El platillo se ha agregado con éxito.",
+      icon: "success",
+    });
+  
+    // Limpia los campos del formulario o realiza otras acciones necesarias
   };
+  
 
   const handleSelectChange = (event) => {
     let temp = JSON.parse(JSON.stringify(restaurantForm))
@@ -215,6 +229,7 @@ function Page() {
    temp = ({ ...temp, Rating: Number(value) });
    setRestaurantFormName(temp);
   }
+
 
   return (
     <div className="admin-page">
@@ -357,7 +372,8 @@ function Page() {
               </label>
 
               {operation === "New" ? (
-                <button type="submit">Agregar Restaurante</button>
+                <button 
+                 type="submit">Agregar Restaurante</button>
               ) : (
                 <button type="submit">Actualizar Restaurante</button>
               )}
