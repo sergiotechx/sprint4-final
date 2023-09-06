@@ -5,7 +5,13 @@ import {
   registerUserWithEmailPassword,
   signInWithgoogle,
 } from "../../firebase/providers";
-import { addNewUser, chekingCredentials, loging, logout, updateUser } from "./authSlice";
+import {
+  addNewUser,
+  chekingCredentials,
+  loging,
+  logout,
+  updateUser,
+} from "./authSlice";
 import { FirebaseDB } from "@/firebase/config";
 
 export const checkingAuthetication = (email, password, date, celphone) => {
@@ -31,7 +37,7 @@ export const startCreatingUserWithEmailPassword = ({
   displayName,
   date,
   celphone,
-  photoURL
+  photoURL,
 }) => {
   return async (dispatch) => {
     dispatch(chekingCredentials());
@@ -58,7 +64,7 @@ export const startCreatingUserWithEmailPassword = ({
           celphone: result.celphone,
         })
       );
-      
+
       dispatch(
         addNewUser({
           ok: true,
@@ -131,7 +137,6 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
 
 export const startNewUser = (createUser) => {
   return async (dispatch, getState) => {
-    
     const State = getState().auth;
 
     const newUser = {
@@ -143,79 +148,60 @@ export const startNewUser = (createUser) => {
       celphone: State.celphone,
       CreditCard: "",
       Paypal: "",
-
-    }
-   const newDoc = doc(FirebaseDB, 'Users', State.uid);
-   await setDoc( newDoc, newUser );
+    };
+    const newDoc = doc(FirebaseDB, "Users", State.uid);
+    await setDoc(newDoc, newUser);
   };
 };
 
-export const starLoadingUser = () =>{
-  return async(dispatch) =>{
-
+export const starLoadingUser = () => {
+  return async (dispatch) => {
     const State = getState().auth;
 
     //
-  }
-}
+  };
+};
 export const startUpdatingUser = (updatedUserData) => {
   return async (dispatch, getState) => {
     try {
-      
       const State = getState().auth;
-      const updateDoc = doc(FirebaseDB, 'Users', State.uid);
+      const updateDoc = doc(FirebaseDB, "Users", State.uid);
 
       const updatedData = {
         displayName: updatedUserData.displayName,
         celphone: updatedUserData.celphone,
         date: updatedUserData.date,
+        photoURL: updatedUserData.photoURL,
       };
 
-      
-      
       await setDoc(updateDoc, updatedData, { merge: true });
-      
+
       dispatch(updateUser(updatedData));
-
-      
-      
-
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
+};
+export const startUpdatingPayment = (updatedPaymentData) => {
+  return async (dispatch, getState) => {
+    try {
+      const State = getState().auth;
+      const updateDoc = doc(FirebaseDB, "Users", State.uid);
+
+      const updatedDataPay = {
+        CreditCard: updatedPaymentData.CreditCard,
+        Paypal: updatedPaymentData.Paypal,
+      };
+
+      await setDoc(updateDoc, updatedDataPay, { merge: true });
+
+      dispatch(updatePayment(updatedDataPay));
+    } catch (error) {}
   };
-  export const startUpdatingPayment = (updatedPaymentData) => {
-    return async (dispatch, getState) => {
-      try {
-        
-        const State = getState().auth;
-        const updateDoc = doc(FirebaseDB, 'Users', State.uid);
-  
-        const updatedDataPay = {
-          CreditCard: updatedPaymentData.CreditCard,
-          Paypal: updatedPaymentData.Paypal,
-        };
-  
-        
-        
-        await setDoc(updateDoc, updatedDataPay, { merge: true });
-        
-        dispatch(updatePayment(updatedDataPay));
-  
-        
-        
-  
-      } catch (error) {
-        
-      }
-    };
-    };
+};
 
-    export const starLogout = () => {
-      return async( dispatch) => {
-        await logoutFirebase()
+export const starLogout = () => {
+  return async (dispatch) => {
+    await logoutFirebase();
 
-        dispatch( logout() );
-      }
-    }
+    dispatch(logout());
+  };
+};

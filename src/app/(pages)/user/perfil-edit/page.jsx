@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./perfil-edit.scss";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../../../../hooks/useForm";
 import { startUpdatingUser } from "../../../../store/auth/thunks";
 import { updateUser } from "../../../../store/auth/authSlice";
-import { CldUploadButton } from 'next-cloudinary';
+import { CldUploadButton } from "next-cloudinary";
 
 const Page = () => {
   const [info, updateInfo] = useState();
@@ -26,46 +26,50 @@ const Page = () => {
     router.push("perfil");
   };
   function handleOnUpload(result, operations) {
-
-    if (!result.event === 'success') {
-
+    if (!result.event === "success") {
       updateError(result?.info);
       return;
     }
 
-    updateInfo(result?.info);
-    if(info){
-      console.log(result)
-    }
+    updateInfo(result?.info.secure_url);
+
+    // if (info) {
+    //   console.log(result);
+    // }
   }
 
   const handleSaveChanges = () => {
-    dispatch(startUpdatingUser(formState));
+    const editProfile = {
+      ...formState,
+      photoURL: info,
+    };
 
-    dispatch(updateUser(formState));
+    dispatch(startUpdatingUser(editProfile));
+    dispatch(updateUser(editProfile));
   };
+
+  // useEffect(() => {
+  //   console.log(info);
+  // }, [info]);
 
   return (
     <div className="perfilE">
       <div className="header">
-
         <span>
-
           <i onClick={handleClick} className="bi bi-chevron-left B"></i>
         </span>
         <div className="imageEdit">
           <p>Profile</p>
           <figure className="figurEdit">
             <img src={user.photoURL} alt="" />
-            <CldUploadButton uploadPreset="FoodyPreset" onUpload={handleOnUpload} id='cloudinary'>
-               <i className="bi bi-camera C" />
+            <CldUploadButton
+              uploadPreset="FoodyPreset"
+              onUpload={handleOnUpload}
+              id="cloudinary"
+            >
+              <i className="bi bi-camera C" />
             </CldUploadButton>
           </figure>
-
-
-          
-         
-
         </div>
       </div>
       <section className="inputs">
@@ -88,13 +92,15 @@ const Page = () => {
         </div>
         <div className="inputEdit">
           <input
-            type="text"
+            type="date"
             name="date"
             value={formState.date}
             onChange={onInputChange}
           />
         </div>
-        <button className="buttonPE" onClick={handleSaveChanges}>Guardar Cambios</button>
+        <button className="buttonPE" onClick={handleSaveChanges}>
+          Guardar Cambios
+        </button>
       </section>
     </div>
   );
