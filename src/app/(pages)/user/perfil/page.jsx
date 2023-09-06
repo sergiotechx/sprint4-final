@@ -1,22 +1,36 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import "./perfil.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { starLogout } from "@/store/auth/thunks";
+import Swal from "sweetalert2";
 
 const Page = () => {
     const router = useRouter()
-
+    const { status } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
     const user = useSelector((state) => state.auth);
+
     
+    const isLogout = useMemo(() => status === "not-authenticated", [status]);
+
     const goToEdit = () =>{
         router.push('perfil-edit')
     }
     const goToPayment = () =>{
         router.push('perfil-payment')
     }
+
+    const logout = () => {
+       dispatch( starLogout() );
+       Swal.fire("Oops", "debes iniciar sesion para permanecer en perfil", "error");
+    }
+    if (isLogout) { 
+        router.push("/home");
+      }
   return (
     <div>
         <div>
@@ -57,9 +71,9 @@ const Page = () => {
             <i className="bi bi-chevron-right r"></i>
             </span>
             <span className='option'>
-            <i className="bi bi-telephone l"></i>
-            <p>Support</p>
-            <i className="bi bi-chevron-right r"></i>
+            <i onClick={logout} className="bi bi-x-square l"></i>
+            <p onClick={logout}>Close Session</p>
+            <i onClick={logout} className="bi bi-chevron-right r"></i>
             </span>
         </div>
     </div>

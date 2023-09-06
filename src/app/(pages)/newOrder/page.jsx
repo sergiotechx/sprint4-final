@@ -6,9 +6,11 @@ import "./newOrder.scss";
 import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { setNoteAct, updateOrderAct } from "@/store/order/orderActions.";
+import { newDbOrderHistory } from "@/services/orderHistoryData";
 
 const NewOrder = () => {
   const orders = useSelector((store) => store.order);
+  const auth = useSelector((store) => store.auth);
   const { register, handleSubmit } = useForm();
   const router = useRouter();
   const [note, setNote] = useState("");
@@ -65,8 +67,48 @@ const NewOrder = () => {
     setNote("");
   };
 
-  const buttonOrder = () => {
-    router.push("/orderAcepted");
+  let upNewOrder = {
+    Address: null,
+    CostDelivery: null,
+    DateTime: null,
+    Plates: [],
+    RestaurantId: null,
+    Status: null,
+    Toppings: [],
+    TotalPrice: null,
+    UserId: null,
+  };
+
+  const buttonOrder = async () => {
+    try {
+      upNewOrder.Address = "882 Well St, New-York";
+      upNewOrder.CostDelivery = Number("4000");
+      upNewOrder.DateTime = "fecha";
+      upNewOrder.Plates = [];
+      ordersIndex.forEach((order) => {
+        upNewOrder.Plates.push(order.PlateId);
+      });
+      upNewOrder.RestaurantId = ordersIndex[0].RestaurantId;
+      upNewOrder.Status = true;
+      ordersIndex.forEach((order) => {
+        order.Toppings.forEach((topping) => {
+          if (topping.Selected) {
+            upNewOrder.Toppings.push(topping.ToppingId);
+          }
+        });
+      });
+      const totalPriceSum = ordersIndex.reduce((accumulator, order) => {
+        return accumulator + order.TotalPrice;
+      }, 0);
+
+      upNewOrder.TotalPrice = totalPriceSum + 4000;
+      upNewOrder.UserId = auth.uid;
+
+      await newDbOrderHistory(upNewOrder);
+      router.push("/orderAcepted");
+    } catch (error) {
+      console.error("Error al crear nueva orden:", error);
+    }
   };
 
   const calculateTotalProducts = () => {
