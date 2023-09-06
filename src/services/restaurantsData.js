@@ -66,7 +66,7 @@ export const getDBRestaurantTypes = async () => {
     }
 }
 export const updateDbRestaurant = async (restaurantInfo )=>{
-    console.log('ellllllllll info', restaurantInfo)
+  
     let docRefRestaurantType = ''
     if (typeof (restaurantInfo.RestaurantTypeId) == 'string') {
         docRefRestaurantType = doc(FirebaseDB, "RestaurantTypeId", restaurantInfo.RestaurantTypeId);
@@ -76,7 +76,7 @@ export const updateDbRestaurant = async (restaurantInfo )=>{
         restaurantInfo.RestaurantTypeId = restaurantInfo.RestaurantTypeId._key.path.segments[index]
         docRefRestaurantType = doc(FirebaseDB, "RestaurantTypeId", restaurantInfo.RestaurantTypeId);
       }
-    //const docRef = doc(FirebaseDB, "RestaurantType", restaurantInfo.RestaurantTypeId);
+    const docRef = doc(FirebaseDB, "RestaurantType", restaurantInfo.RestaurantTypeId);
     try{
         const docRef = doc(FirebaseDB, "Restaurants", restaurantInfo.id);
            const newData ={
@@ -90,7 +90,7 @@ export const updateDbRestaurant = async (restaurantInfo )=>{
                         StartTime: restaurantInfo.StartTime,
                         WaitingTime: restaurantInfo.WaitingTime,
         }
-      // const newDocument = await setDoc(docRef, newData)
+       const newDocument = await setDoc(docRef, newData)
       
     }
     catch(error){
