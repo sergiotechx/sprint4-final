@@ -74,6 +74,13 @@ const Page = () => {
                     <p onClick={logout}>Close Session</p>
                     <i onClick={logout} className="bi bi-chevron-right r"></i>
                 </span>
+                {user.email == 'Administrador@gmail.com' &&
+                    <span className='option'>
+                        <i onClick={()=>{router.push("/admin")}} className="bi bi-gear l"></i>
+                        <p onClick={()=>{router.push("/admin")}}>Administrar</p>
+                        <i onClick={()=>{router.push("/admin")}} className="bi bi-chevron-right r"></i>
+                    </span>
+                }
             </div>
         </div>
     );

@@ -10,7 +10,8 @@ import { getDBRestaurantPlates, updateDbRestaurant, newDbRestaurant } from "@/se
 import fileUpload from "@/services/fileUpload";
 import { Rating } from '@mantine/core';
 import { getDBPlateTypes, updateDbPlate,newDbPlate } from "@/services/plateData";
-import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+
 
 function Page() {
   const [showForm, setShowForm] = useState(false); // Mostrar/Esconder form de platos
@@ -32,19 +33,24 @@ function Page() {
   const [restaurant, setRestaurant] = useState({});
   const [platetypes, setPlateTypes] = useState([]);
   const [platetype, setPlateType] = useState({});
-
+  const router = useRouter();
 
 
   const dispatch = useDispatch();
   const { restaurantTypes } = useSelector((store) => store.restaurantTypes);
   const { restaurants } = useSelector((store) => store.restaurants);
+  
   const user = useSelector((state) => state.auth);
 
   useEffect(() => {
+    if(user.email != 'Administrador@gmail.com'){
+      router.push('/home')
+      return
+    }
     dispatch(fillRestaurantTypes());
     dispatch(listRestaurants());
     getDBPlateTypes().then((result) => setPlateTypes(result))
-    console.log('user', user)
+   
   }, [dispatch]);
 
   useEffect(() => {

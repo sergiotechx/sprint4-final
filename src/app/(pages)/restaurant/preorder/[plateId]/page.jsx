@@ -28,6 +28,7 @@ const Page = ({ params }) => {
   const [selectedToppings, setSelectedToppings] = useState([]);
   const [order, setOrder] = useState({});
   const router = useRouter();
+  const user = useSelector((state) => state.auth);
 
   const loadData = async (plateId) => {
     const data = await getDBPlate(plateId);
@@ -129,7 +130,17 @@ const Page = ({ params }) => {
     }
   };
   const prepareOrder = async () => {
-    const result = await Swal.fire({
+     console.log('el usuario',user)
+      if(user.status!='authenticated'){
+        const answer = await Swal.fire(
+          'Alerta!',
+          'Usuario no autenticado',
+          'info'
+        )
+        router.push("/user/login");
+        return;
+      }
+     const result = await Swal.fire({
       title: "¿Desea añadir la orden?",
       showDenyButton: true,
       showCancelButton: false,
