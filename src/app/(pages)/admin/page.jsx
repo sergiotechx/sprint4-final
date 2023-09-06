@@ -43,10 +43,6 @@ function Page() {
   const user = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if(user.email != 'Administrador@gmail.com'){
-      router.push('/home')
-      return
-    }
     dispatch(fillRestaurantTypes());
     dispatch(listRestaurants());
     getDBPlateTypes().then((result) => setPlateTypes(result))
