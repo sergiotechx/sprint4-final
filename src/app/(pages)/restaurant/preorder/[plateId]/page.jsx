@@ -128,7 +128,7 @@ const Page = ({ params }) => {
 
       setOrder(temp);
     }
-  };
+  }; 
   const prepareOrder = async () => {
      console.log('el usuario',user)
       if(user.status!='authenticated'){

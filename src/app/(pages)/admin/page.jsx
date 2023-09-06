@@ -22,7 +22,7 @@ function Page() {
   const [plateImage, setPlateImage] = useState('');
   const [dishIngredients, setDishIngredients] = useState("");
   const [dishesList, setDishesList] = useState([]); // Estado para la lista de platillos
-  const [dishprice, setDishPrice] = useState("");
+  const [dishprice, setDishPrice] = useState(""); 
   const [plato, setPlato] = useState("");
   const [restaurantForm, setRestaurantFormName] = useState({});
   const [platilloForm, setPlatilloForm] = useState({});
